@@ -2,40 +2,50 @@
 
 ### Background
 
+Sleep Defender is a riff on the 1981 classic space shooter game [Defender](http://www.classicgamesarcade.com/game/21638/defender.html). Drawing inspiration from the classics Space Invaders and Asteroids, Defender is 2D sidescrolling game set in which the player's objective is twofold: 
 
-Conway's Game of Life is a classic example of the concept of **cellular automata**.  The original GoL is a 0-player game that plays out on a rectangular grid.  Each cell on the grid is either dead or alive when the game begins.  On the next iteration of the game (called a "generation") the cells follow these rules:
+1 ) Defeat waves of invading aliens
+2 ) Protect astronauts on the landscape from being abducted by said aliens
 
+Eventually, the player wins the game by surviving the waves of aliens.
 
+'Sleep Defender' aims to capture the essence and spirit of this game while giving it a modern take. The player is a pajama - clad person who must defend their bed from waves of objects that might interrupt their sleep - alarm clocks, cans of energy drinks, cups of coffee. The player wins if they are able to clear the screen of these moving objects without being hit more than three times or having their bed "abducted". 
 
-There are many variations on the GoL.  This simulation will incorporate several of those variations, outlined in the **Functionality & MVP** and **Bonus Features** sections.  
 
 ### Functionality & MVP  
 
 With this game, users will be able to:
 
-- [ ] Start, pause, and reset the game board
-- [ ] Select squares to be alive in the initial state
-- [ ] Choose from preset demo initial states
-- [ ] Toggle between square, triangular and hexagonal grids with corresponding rule sets
+- [ ] Start, pause, and reset the game.
+- [ ] Move their character up, down, left, and right.
+- [ ] Fire projectiles at enemy objects to destroy them.
+- [ ] Hear sound effects for:
+1 ) The firing of projectiles
+2 ) Being hit by an enemy object and hitting an enemy object
 
 In addition, this project will include:
 
-- [ ] An About modal describing the background and rules of the game
-- [ ] A production Readme
+- [ ] An About modal describing the objective of and controls for the game
+- [ ] The ability to play or mute background music. 
 
 ### Wireframes
 
-This app will consist of a single screen with game board, game controls, and nav links to the Github, my LinkedIn,
-and the About modal.  Game controls will include Start, Stop, and Reset buttons as well as a slider to control the speed.  On the left, three clickable shapes will be used to toggle between the types of grids available.  On the right, there will be three (or more) clickable gradient-filled rectangles used to toggle between color schemes (see Bonus Features).  Additionally, a drop-down will be added to the Controls to toggle between different rule sets (again, see Bonus Features).
+This app will have a single screen with the game board, game statistics (lives remaining and percentage of enemy objects eliminated), game controls, and links to my pages (Github, Linkedin, Portfolio site). 
 
-![wireframes](images/js_wireframe.jpeg)
+There will also be a '?' button that will allow the player to re-read the directions if they need to.
+
+The original 'Defender':
+![original_game]('')
+
+Wireframe for 'Sleep Defender'; 
+![wireframe]('')
 
 ### Architecture and Technologies
 
 This project will be implemented with the following technologies:
 
-- Vanilla JavaScript and `jquery` for overall structure and game logic,
-- `Easel.js` with `HTML5 Canvas` for DOM manipulation and rendering,
+- Vanilla JavaScript for overall structure and game logic,
+- `Pixi.js` with `HTML5 Canvas` for DOM manipulation and rendering,
 - Webpack to bundle and serve up the various scripts.
 
 In addition to the webpack entry file, there will be three scripts involved in this project:
