@@ -1,11 +1,11 @@
-## Sleep Defender
+## Sleep Defender :sleeping: :space_invader:
 
 ### Background
 
 Sleep Defender is a riff on the 1981 classic space shooter game [Defender](http://www.classicgamesarcade.com/game/21638/defender.html). Drawing inspiration from the classics Space Invaders and Asteroids, Defender is 2D sidescrolling game set in which the player's objective is twofold: 
 
-1 ) Defeat waves of invading aliens
-2 ) Protect astronauts on the landscape from being abducted by said aliens
+1. Defeat waves of invading aliens
+2. Protect astronauts on the landscape from being abducted by said aliens
 
 Eventually, the player wins the game by surviving the waves of aliens.
 
@@ -20,8 +20,8 @@ With this game, users will be able to:
 - [ ] Move their character up, down, left, and right.
 - [ ] Fire projectiles at enemy objects to destroy them.
 - [ ] Hear sound effects for:
-1 ) The firing of projectiles
-2 ) Being hit by an enemy object and hitting an enemy object
+1. The firing of projectiles
+2. Being hit by an enemy object and hitting an enemy object
 
 In addition, this project will include:
 
@@ -35,7 +35,7 @@ This app will have a single screen with the game board, game statistics (lives r
 There will also be a '?' button that will allow the player to re-read the directions if they need to.
 
 The original 'Defender':
-![original_game]('')
+![original_game]('http://res.cloudinary.com/liuffy/image/upload/v1486409862/original_defender_fhy1pa.gif')
 
 Wireframe for 'Sleep Defender'; 
 ![wireframe]('')
@@ -52,9 +52,7 @@ In addition to the webpack entry file, there will be three scripts involved in t
 
 `board.js`: this script will handle the logic for creating and updating the necessary `Easel.js` elements and rendering them to the DOM.
 
-`automata.js`: this script will handle the logic behind the scenes.  An Automata object will hold a `type` (hexagon, triangle, or square) and a 2D array of `Cell`s.  It will be responsible for doing neighbor checks for each `Cell` upon iteration and updating the `Cell` array appropriately.
 
-`cell.js`: this lightweight script will house the constructor and update functions for the `Cell` objects.  Each `Cell` will contain a `type` (hexagon, triangle, or square) and an `aliveState` (`true` or `false`).
 
 ### Implementation Timeline
 
