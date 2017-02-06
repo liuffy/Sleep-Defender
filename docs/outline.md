@@ -37,10 +37,10 @@ There will also be a '?' button that will allow the player to re-read the direct
 A quick comparison:  
 
 ![original_game](http://res.cloudinary.com/liuffy/image/upload/v1486409862/original_defender_fhy1pa.gif)  
-The original 'Defender'
+*The original 'Defender'*
 
-![wireframe](http://res.cloudinary.com/liuffy/image/upload/v1486421433/sleep_defender_wireframe_yf94w6.png)
-Wireframe for 'Sleep Defender'
+![wireframe](http://res.cloudinary.com/liuffy/image/upload/v1486422363/s_d_wireframe_yyc2ye.png)
+*Wireframe for 'Sleep Defender'*
 
 
 ### Architecture and Technologies
