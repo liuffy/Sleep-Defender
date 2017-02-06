@@ -34,9 +34,9 @@ This app will have a single screen with the game board, game statistics (lives r
 
 There will also be a '?' button that will allow the player to re-read the directions if they need to.
 
-A quick comparison: 
+A quick comparison:  
 
-![original_game](http://res.cloudinary.com/liuffy/image/upload/v1486409862/original_defender_fhy1pa.gif)
+![original_game](http://res.cloudinary.com/liuffy/image/upload/v1486409862/original_defender_fhy1pa.gif)  
 The original 'Defender'
 
 ![wireframe](http://res.cloudinary.com/liuffy/image/upload/v1486421433/sleep_defender_wireframe_yf94w6.png)
