@@ -1,0 +1,24 @@
+{
+  "name": "sleep_defender",
+  "version": "1.0.0",
+  "description": "Sleep defender",
+  "main": "index.js",
+  "scripts": {
+    "test": "?"
+  },
+  "repository": {
+    "type": "git",
+    "url": "sleep_defender"
+  },
+  "keywords": [
+    "sleep",
+    "defender",
+    "arcade"
+  ],
+  "author": "Sophia Liu",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^4.8.1",
+    "pixi.js": "^4.3.4"
+  }
+}
