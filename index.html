@@ -1,19 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Hello World</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.2.2/pixi.min.js"></script>
-</head>
-  <script src="pixi.min.js"></script>
-<body>
-  <script type="text/javascript">
-    var type = "WebGL"
-    if(!PIXI.utils.isWebGLSupported()){
-      type = "canvas"
-    }
+  <head>
+    <meta charset="ISO-8859-1">
+    <title>Sleep Defender</title>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/pixi.js"></script>
 
-    PIXI.utils.sayHello(type)
-  </script>
-</body>
-</html>
+    <link rel="stylesheet" href="assets/stylesheets/main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,500,700,700i" rel="stylesheet">
+  </head>
+  <body>
+    <div id="main-container">
+      <div id="loading">
+        <h3>Loading...</h3>
+        <p class="progress">0%</p>
+      </div>
+      <div id="js-error">
+        <h3>Oops...</h3>
+        <p>It seems like the game doesn't run in your browser. Please activate javascript and
+        then reload this page.</p>
+        <img src="http://res.cloudinary.com/liuffy/image/upload/v1486519768/pajamer_sprite_qdqfng.png" />
+      </div>
+      <canvas id="game-canvas"></canvas>
+    </div>
+
+    <a href="#" id="mute" onclick="toggleMute(); return false;" class="mute">Mute</a>
+  </body>

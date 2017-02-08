@@ -1,7 +1,7 @@
 module.exports = {
-  entry: "./lib/sleep_defender.js",
+  entry: "./js/index.js",
   output: {
-  	filename: "./lib/bundle.js"
+  	filename: "./js/bundle.js"
   },
   devtool: 'source-map',
 };

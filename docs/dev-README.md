@@ -64,8 +64,8 @@ In addition to the webpack entry file, there will be three scripts involved in t
 ### Implementation Timeline
 
 **Day 1: Basic rendering**
-- [ ] Setup all necessary Node modules, including getting webpack up and running installing `Pixi.js`.  
-- [ ] Create `webpack.config.js` as well as `package.json`.  
+- [X] Setup all necessary Node modules, including getting webpack up and running installing `Pixi.js`.  
+- [X] Create `webpack.config.js` as well as `package.json`.  
 - [ ] Learn the basics of `Pixi.js`. Complete the first part of the [Learning Pixi JS](https://github.com/kittykatattack/learningPixi) tutorial on Github
 - [ ] Write a basic entry file and the bare bones of all 3 scripts outlined above. Attempt to render the background and the player's object on screen (likely a basic sprite in place of the final ones).  
 
@@ -81,7 +81,7 @@ In addition to the webpack entry file, there will be three scripts involved in t
 - [ ] Create missiles that fire to the left or right (depending on which side the character is facing)
 
 
-**Day 4: Hit detection (losing and winning)4**
+**Day 4: Hit detection (losing and winning)**
 - [ ] When a missile from the player hits an enemy, that enemy is cleared from the board.
 - [ ] LOSING: When the bed is hit by an enemy object, the game ends.
 - [ ] WINNING: If the player clears the board of enemies, they win the game! 
