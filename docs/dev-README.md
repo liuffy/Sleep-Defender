@@ -66,12 +66,12 @@ In addition to the webpack entry file, there will be three scripts involved in t
 **Day 1: Basic rendering**
 - [X] Setup all necessary Node modules, including getting webpack up and running installing `Pixi.js`.  
 - [X] Create `webpack.config.js` as well as `package.json`.  
-- [ ] Learn the basics of `Pixi.js`. Complete the first part of the [Learning Pixi JS](https://github.com/kittykatattack/learningPixi) tutorial on Github
+- [X] Learn the basics of `Pixi.js`. Complete the first part of the [Learning Pixi JS](https://github.com/kittykatattack/learningPixi) tutorial on Github
 - [ ] Write a basic entry file and the bare bones of all 3 scripts outlined above. Attempt to render the background and the player's object on screen (likely a basic sprite in place of the final ones).  
 
 
 **Day 2: Get the player's character moving back and forth. Create enemy objects objects.**
-- [ ] Have the player's character respond to key presses - keymaster added
+- [X] Have the player's character respond to key presses - keymaster added
 - [ ] Player faces the direction they're moving in (left vs. right) - need flipped sprite for this
 - [ ] Create enemy objects (with different appearances but functioning identically) that can at least move around randomly 
 

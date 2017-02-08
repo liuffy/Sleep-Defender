@@ -3,7 +3,7 @@ body{
 		background-color: #253d48;
 	color: #abadab;
 }
-
+/*
 #mute {
 	position: absolute;
 	bottom: 10px;
@@ -40,6 +40,25 @@ body{
 
 #loading {
 	display: none;
+}*/
+
+.title-container{
+	display:block;
+}
+.game-title{
+	padding:0px;
+	margin:10px;
+	font-size:32px;
+	text-align:center;
 }
 
+canvas{
+	display: block;
+  margin-bottom: -13%;
+  margin-left: 14%;
+}
 
+span.credit-line{
+	opacity:0.4;
+	font-size:20px;
+}
