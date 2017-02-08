@@ -71,7 +71,7 @@ In addition to the webpack entry file, there will be three scripts involved in t
 
 
 **Day 2: Get the player's character moving back and forth. Create enemy objects objects.**
-- [ ] Have the player's character respond to key presses
+- [ ] Have the player's character respond to key presses - keymaster added
 - [ ] Player faces the direction they're moving in (left vs. right) - need flipped sprite for this
 - [ ] Create enemy objects (with different appearances but functioning identically) that can at least move around randomly 
 
