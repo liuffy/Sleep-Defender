@@ -29,6 +29,7 @@ Loader
     "assets/images/sad_pajamer.png",
     "assets/images/enemy-1.png",
     "assets/images/enemy-2.png",
+    "assets/images/enemy-3.png",
     "assets/images/bedroom_image.png",
     "assets/images/bed.png",
     ])
@@ -88,14 +89,13 @@ function randomInt(min, max) {
 
 
 
-var pajamer, bed, enemy1, enemy2, state;
+var pajamer, bed, enemy, enemy2, state;
 //This `setup` function will run when the image has loaded
 function setup() {
 
  console.log("All files loaded!");
   //Create the `cat` sprite from the texture
 
-// var pajamer = new Pajamer (sprite, 150,350); 
 
   pajamer = new Sprite(
     Resources["assets/images/pajamer_sprite.png"].texture
@@ -106,10 +106,6 @@ function setup() {
 
   bed = new Sprite(
     Resources["assets/images/bed.png"].texture
-  );
-
-  enemy2 = new Sprite(
-    Resources["assets/images/enemy-2.png"].texture
   );
 
   // Position the pajamer
@@ -134,35 +130,41 @@ function setup() {
   var numOfEnemies = 8,
       spacing = 30,
       xOffset = 150,
-      speed = 1.2,
-      direction = 1;
+      direction = 1.2;
   //An array to store all the enemies
   enemies = [];
 
 
+    ENEMY_OPTIONS = [
+            Resources["assets/images/enemy-1.png"], 
+           Resources["assets/images/enemy-2.png"],
+           Resources["assets/images/enemy-3.png"]
+           ]
+
   //Make as many Enemies as there are `numberOfEnemies`
   for (var i = 0; i < numOfEnemies; i++) {
     //Make an enemy
-    enemy1 = new Sprite(
-    Resources["assets/images/enemy-1.png"].texture);  
+    enemy = new Sprite(ENEMY_OPTIONS[randomInt(0,2,)].texture); 
+
     //Space each enemy horizontally according to the `spacing` value.
     //`xOffset` determines the point from the left of the screen
     //at which the first enemy should be added
     var x = spacing * i + xOffset;
     //Give the enemy a random y position
-    var y = randomInt(0, stage.height - enemy1.height);
+    var y = randomInt(0, stage.height - enemy.height);
     //Set the enemy's position
-      enemy1.x = x;
-      enemy1.y = y;
+      enemy.x = x;
+      enemy.y = y;
     
-    enemy1.vy = speed * direction;
-    enemy1.vx = randomInt(1,2);
-    //Reverse the direction for the next enemy1
+    enemy.vy = randomInt(1,4) * direction;
+    enemy.vx = randomInt(1,2);
+    //Reverse the direction for the next enemy
     direction *= -1;
-    //Push the enemy1 into the `Enemies` array
-    enemies.push(enemy1);
+
+    //Push the enemy into the `Enemies` array
+    enemies.push(enemy);
     //Add the enemy to the `gameScene`
-    stage.addChild(enemy1);
+    stage.addChild(enemy);
   }
 
 
@@ -302,6 +304,14 @@ function gameLoop() {
       enemy.vx *= -1; // make em bound around
     }
 
+    if(hitTestRectangle(pajamer, enemy)) {
+  pajamerHit = true;
+}
+
+if(hitTestRectangle(bed, enemy)) {
+  bedHit = true;
+}
+
 })
   // contain player's sprite to walls
 
@@ -309,21 +319,16 @@ function gameLoop() {
 
 // COLLISION LOGIC 
 
-var pajamerHit;
+var pajamerHit, bedHit;
 
-if(hitTestRectangle(pajamer, bed)) {
-  pajamerHit = true;
-}
 
 // var sadTexture = Texture.fromFrame('sad_pajamer.png'); 
 // var happyTexture = Texture.fromFrame('pajamer_sprite.png')
 
 if (pajamerHit){
-
    // bed tints red when hit
   // stage.addChild(message);
    // message.text = "You've been hit!"
-    bed.tint = 0xFF9999;
     // pajamer.texture = Resources["assets/images/sad_pajamer.png"]
     pajamer.alpha = 0.7;
     pajamer.tint = 0xFF9999;
@@ -331,13 +336,16 @@ if (pajamerHit){
   } else {
     pajamer.tint = 0xffffff;
     pajamer.alpha = 1;
-    bed.tint = 0xffffff;
-  }
  }
 
 
-
-// COLLISION FU 
+if (bedHit){
+    bed.tint = 0xFF9999;
+  } else {
+    bed.tint = 0xffffff;
+ }
+}
+// COLLISION FUNCTION (find different one for alarm clock circles) 
 function hitTestRectangle(sprite1, sprite2) {
 
   //Calculate `centerX` and `centerY` properties on the sprites
