@@ -1,4 +1,4 @@
 const PIXI = require('pixi.js');
 
 
-export default MovingObjects;
+module.exports = MovingObjects;
