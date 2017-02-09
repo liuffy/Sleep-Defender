@@ -12,8 +12,6 @@ const Game = require('./game.js');
       Text = PIXI.Text,
       Sprite = PIXI.Sprite;
 
-
-
 var renderer = autoDetectRenderer(800, 440, {antialias: true, transparent: false, resolution: 1});
 
 
@@ -32,6 +30,8 @@ Loader
     "assets/images/enemy-3.png",
     "assets/images/bedroom_image.png",
     "assets/images/bed.png",
+    "assets/images/HP_bar.png",
+    "assets/images/end_message.png"
     ])
   .on("progress", loadProgressHandler)
   .load(setup);
@@ -42,7 +42,15 @@ function loadProgressHandler(loader, resource) {
 }
 
 
-
+function pauseGame() {
+  if (!gamePaused) {
+    game = clearTimeout(game);
+    gamePaused = true;
+  } else if (gamePaused) {
+    game = setTimeout(gameLoop, 1000 / 30);
+    gamePaused = false;
+  }
+}
 
 // Contain sprites within walls 
 function contain(sprite, container) {
@@ -87,14 +95,21 @@ function randomInt(min, max) {
 }
 
 
-
-
-var pajamer, bed, enemy, enemy2, state;
+var pajamer, bed, enemy, state;
 //This `setup` function will run when the image has loaded
 function setup() {
 
  console.log("All files loaded!");
   //Create the `cat` sprite from the texture
+
+
+    //Create the `gameOver` scene
+  endScene = new Container(0xFF9999);
+  stage.addChild(endScene);
+  //Make the `end` scene invisible when the game first starts
+  endScene.visible = false;
+
+
 
 
   pajamer = new Sprite(
@@ -106,8 +121,18 @@ function setup() {
 
   bed = new Sprite(
     Resources["assets/images/bed.png"].texture
+  ); 
+
+  endMessage = new Sprite(
+    Resources["assets/images/end_message.png"].texture
   );
 
+  endMessage.scale.x = 0.5;
+  endMessage.scale.y = 0.5;
+  endMessage.position.set(180,10);
+
+
+  endScene.addChild(endMessage)
   // Position the pajamer
   pajamer.position.set(150,350)
   bed.position.set(405,383)
@@ -124,10 +149,33 @@ function setup() {
   stage.addChild(bed);
 
 
+ // HEALTH
+
+
+ hpBar = new Sprite(
+  Resources["assets/images/HP_bar.png"].texture
+  )
+ hpBar.position.set(540, 15)
+
+  stage.addChild(hpBar);
+
+
+  //170 is the size of the full health bar 
+  var outerBar = new PIXI.Graphics();
+  outerBar.beginFill(0xFF0000);
+  outerBar.drawRect(0, 0, 2, 7);
+  outerBar.endFill();
+  outerBar.position.set(227,10)
+  hpBar.addChild(outerBar);
+  hpBar.outer = outerBar;
+
+
+
   // ENEMIES 
 
+
   //Make the Enemies
-  var numOfEnemies = 8,
+  var numOfEnemies = randomInt(6,8),
       spacing = 30,
       xOffset = 150,
       direction = 1.2;
@@ -144,40 +192,51 @@ function setup() {
   //Make as many Enemies as there are `numberOfEnemies`
   for (var i = 0; i < numOfEnemies; i++) {
     //Make an enemy
-    enemy = new Sprite(ENEMY_OPTIONS[randomInt(0,2,)].texture); 
+    enemy = new Sprite(ENEMY_OPTIONS[randomInt(0,2)].texture); 
 
     //Space each enemy horizontally according to the `spacing` value.
     //`xOffset` determines the point from the left of the screen
     //at which the first enemy should be added
     var x = spacing * i + xOffset;
     //Give the enemy a random y position
-    var y = randomInt(0, stage.height - enemy.height);
+    var y = randomInt(0, (stage.height - enemy.height)/6);
     //Set the enemy's position
       enemy.x = x;
       enemy.y = y;
     
-    enemy.vy = randomInt(1,4) * direction;
+    enemy.vy = randomInt(1,2) * direction;
     enemy.vx = randomInt(1,2);
     //Reverse the direction for the next enemy
     direction *= -1;
 
     //Push the enemy into the `Enemies` array
     enemies.push(enemy);
-    //Add the enemy to the `gameScene`
+    //Add the enemy to the `stage`
     stage.addChild(enemy);
   }
 
 
-  //Capture the keyboard arrow keys
+
+    var velocityX = 0,
+    maximumVelocityX = 8,
+    accelerationX = 2,
+    frictionX = 0.9;
+
+  //KEYBOARD COMMANDS
   var left = keyboard(37),
       up = keyboard(38),
       right = keyboard(39),
-      down = keyboard(40);
+      down = keyboard(40),
+      pause = keyboard(80);
 
   //Left arrow key `press` method
+
+  pause.press = function(){
+    pauseGame();
+  }
+
   left.press = function() {
 
-    //Change the cat's velocity when the key is pressed
     pajamer.vx = -5;
     pajamer.vy = 0;
   };
@@ -286,16 +345,15 @@ function gameLoop() {
 
  function play(){
 
-  //Apply the velocity values to the pajamer's 
-  //position to make it move
   pajamer.x += pajamer.vx;
   pajamer.y += pajamer.vy;
 
 
+// ENEMY CODE
   enemies.forEach(function(enemy) {
     enemy.y += enemy.vy;
     enemy.x += enemy.vx;
-    //Check the enemy's screen boundaries
+
     var enemyHitsWall = contain(enemy, {x: 0, y: 0, width: 800, height: 440});
     //If the enemy hits the top or bottom of the stage, reverse
     //its direction
@@ -304,23 +362,32 @@ function gameLoop() {
       enemy.vx *= -1; // make em bound around
     }
 
+    // lights up player if they're hit by an enemy
     if(hitTestRectangle(pajamer, enemy)) {
-  pajamerHit = true;
-}
+      pajamerHit = true;
+    }
 
-if(hitTestRectangle(bed, enemy)) {
-  bedHit = true;
-}
-
+    // lights up bed if they're hit by an enemy
+    if(hitTestRectangle(bed, enemy)) {
+      bedHit = true;
+    }
 })
+
   // contain player's sprite to walls
 
   contain(pajamer, {x: 0, y: 0, width: 800, height: 440});
 
 // COLLISION LOGIC 
 
-var pajamerHit, bedHit;
+// message = new Text(
+//     "Alas! You've woken up.", 
+//     {fontFamily: "Futura", fontSize:'32', fill: "white"}
+//   );
 
+//   message.position.set(300,300);
+//   endScene.addChild(message);
+
+var pajamerHit, bedHit;
 
 // var sadTexture = Texture.fromFrame('sad_pajamer.png'); 
 // var happyTexture = Texture.fromFrame('pajamer_sprite.png')
@@ -332,11 +399,17 @@ if (pajamerHit){
     // pajamer.texture = Resources["assets/images/sad_pajamer.png"]
     pajamer.alpha = 0.7;
     pajamer.tint = 0xFF9999;
+    hpBar.outer.width -= 1;
+    console.log(hpBar.outer.width);
+    if (hpBar.outer.width < -170) {
+    state = end;
+  } 
 
-  } else {
-    pajamer.tint = 0xffffff;
-    pajamer.alpha = 1;
- }
+
+ }  else {
+      pajamer.tint = 0xffffff;
+      pajamer.alpha = 1;
+}
 
 
 if (bedHit){
@@ -375,4 +448,10 @@ function hitTestRectangle(sprite1, sprite2) {
   return collision;
 }
 
+
+function end() {
+  // stage.visible = false;
+  stage.addChild(endMessage)
+  endScene.visible = true;
+}
 
