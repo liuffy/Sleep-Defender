@@ -99,8 +99,12 @@ function randomInt(min, max) {
 
 
 // Variables I want to access throughout the game 
+ 
+let specificEnemy;
+let abductorId;
 
-var pajamer, bed, enemy, state, specificEnemy, abductorId;
+var pajamer, bed, enemy, state;
+
 //This `setup` function will run when the image has loaded
 function setup() {
 
@@ -155,7 +159,10 @@ function setup() {
 
   //Initialize pajamer's velocity variables
    pajamer.vx = 0;
-   pajamer.vy = 0;
+   pajamer.vy = 0;   
+
+   bed.vx = 0;
+   bed.vy = 0;
   //Add the pajamer to the stage
   stage.addChild(bedroom);
   stage.addChild(pajamer);
@@ -400,10 +407,9 @@ var pajamerHit, bedHit;
 // var happyTexture = Texture.fromFrame('pajamer_sprite.png')
 
 if (pajamerHit){
-   // bed tints red when hit
-  // stage.addChild(message);
-   // message.text = "You've been hit!"
     // pajamer.texture = Resources["assets/images/sad_pajamer.png"]
+
+    // translucent when hit
     pajamer.alpha = 0.7;
     pajamer.tint = 0xFF9999;
     hpBar.outer.width -= 2;
@@ -419,18 +425,22 @@ if (pajamerHit){
 
 if (bedHit){
 
+  console.log(bed.vy)
+
   enemies.forEach(function(enemy) {
-    if (enemy.id === abductorId){
+    if (enemy.id === abductorId && bed.vy === 0){
       specificEnemy = enemy;
     }
   })
   bed.x = specificEnemy.x - 20;
   bed.y = specificEnemy.y + 25;
+
   specificEnemy.vx = 0;
   specificEnemy.vy = -2;
+  bed.vy = specificEnemy.vy
   bed.tint = 0xFF9999;
 
-    if (bed.y < -30){
+    if (bed.y < -60){
       state = end2;
     }
 
