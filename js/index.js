@@ -32,6 +32,8 @@ Loader
     "assets/images/bed.png",
     "assets/images/HP_bar.png",
     "assets/images/game_over.png",
+    "assets/images/zzz.png",
+    "assets/images/paused.png",
     "assets/images/game_over2.png"
     ])
   .on("progress", loadProgressHandler)
@@ -44,12 +46,11 @@ function loadProgressHandler(loader, resource) {
 
 
 function pauseGame() {
-  if (!gamePaused) {
-    game = clearTimeout(game);
-    gamePaused = true;
-  } else if (gamePaused) {
-    game = setTimeout(gameLoop, 1000 / 30);
-    gamePaused = false;
+  if (state === play) {
+    state = pause
+  } else if (state === pause) {
+    stage.removeChild(pausedMessage)
+    state = play
   }
 }
 
@@ -102,10 +103,10 @@ function randomInt(min, max) {
  
 let specificEnemy;
 let abductorId;
+var pajamer, bed, enemy, state, zZz;
 
-var pajamer, bed, enemy, state;
 
-//This `setup` function will run when the image has loaded
+
 function setup() {
 
  console.log("All files loaded!");
@@ -140,6 +141,12 @@ function setup() {
     Resources["assets/images/game_over2.png"].texture
   );
 
+  pausedMessage = new Sprite(
+    Resources["assets/images/paused.png"].texture
+  );
+
+  pausedMessage.position.set(240, 150)
+
   endMessage.scale.x = 0.5;
   endMessage.scale.y = 0.5;
   endMessage.position.set(180,10);
@@ -150,20 +157,20 @@ function setup() {
 
 
   endScene.addChild(endMessage)
-  // Position the pajamer
+
+
   pajamer.position.set(150,350)
   bed.position.set(405,383)
 
   bed.scale.x = 1.2;
   bed.scale.y = 1.2;
 
-  //Initialize pajamer's velocity variables
-   pajamer.vx = 0;
-   pajamer.vy = 0;   
+  pajamer.vx = 0;
+  pajamer.vy = 0;   
 
-   bed.vx = 0;
-   bed.vy = 0;
-  //Add the pajamer to the stage
+  bed.vx = 0;
+  bed.vy = 0;
+
   stage.addChild(bedroom);
   stage.addChild(pajamer);
   stage.addChild(bed);
@@ -242,16 +249,33 @@ function setup() {
     accelerationX = 2,
     frictionX = 0.9;
 
+
+
+
+
   //KEYBOARD COMMANDS
   var left = keyboard(37),
       up = keyboard(38),
       right = keyboard(39),
       down = keyboard(40),
-      pause = keyboard(80);
+      pause = keyboard(80),
+      fire = keyboard(32),
+      restart = keyboard(82)
 
   //Left arrow key `press` method
 
-  pause.press = function(){
+
+  restart.release = function(){
+    // setup()
+  }
+
+  fire.release = function(){
+    stage.addChild(zZz);
+    console.log(zZz.vy);
+  }
+
+
+  pause.release = function(){
     pauseGame();
   }
 
@@ -365,6 +389,23 @@ function gameLoop() {
 
  function play(){
 
+   zZz = new Sprite(
+    Resources["assets/images/zzz.png"].texture
+    );
+
+   console.log(zZz.x, zZz.y)
+   console.log(zZz.vy)
+    zZz.x += zZz.vx;
+    zZz.y += zZz.vy;
+
+   zZz.position.set(pajamer.x, pajamer.y)
+    zZz.scale.x = 0.5;
+    zZz.scale.y = 0.5;
+    zZz.vx = -0.3
+    zZz.vy = -0.7
+
+
+
   pajamer.x += pajamer.vx;
   pajamer.y += pajamer.vy;
 
@@ -424,9 +465,6 @@ if (pajamerHit){
 }
 
 if (bedHit){
-
-  console.log(bed.vy)
-
   enemies.forEach(function(enemy) {
     if (enemy.id === abductorId && bed.vy === 0){
       specificEnemy = enemy;
@@ -479,6 +517,9 @@ function hitTestRectangle(sprite1, sprite2) {
   return collision;
 }
 
+function pause(){
+  stage.addChild(pausedMessage)
+}
 
 function end1() {
   // stage.visible = false;
