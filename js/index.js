@@ -31,7 +31,8 @@ Loader
     "assets/images/bedroom_image.png",
     "assets/images/bed.png",
     "assets/images/HP_bar.png",
-    "assets/images/end_message.png"
+    "assets/images/game_over.png",
+    "assets/images/game_over2.png"
     ])
   .on("progress", loadProgressHandler)
   .load(setup);
@@ -53,6 +54,8 @@ function pauseGame() {
 }
 
 // Contain sprites within walls 
+
+// var abductionInProgress = false;
 function contain(sprite, container) {
 
   var collision = undefined;
@@ -64,7 +67,7 @@ function contain(sprite, container) {
   }
 
   //Top
-  if (sprite.y < container.y) {
+  if (sprite.y < container.y && sprite.id !== abductorId) {
     sprite.y = container.y;
     collision = "top";
   }
@@ -95,7 +98,9 @@ function randomInt(min, max) {
 }
 
 
-var pajamer, bed, enemy, state;
+// Variables I want to access throughout the game 
+
+var pajamer, bed, enemy, state, specificEnemy, abductorId;
 //This `setup` function will run when the image has loaded
 function setup() {
 
@@ -124,12 +129,20 @@ function setup() {
   ); 
 
   endMessage = new Sprite(
-    Resources["assets/images/end_message.png"].texture
+    Resources["assets/images/game_over.png"].texture
+  );
+
+  endMessage2 = new Sprite(
+    Resources["assets/images/game_over2.png"].texture
   );
 
   endMessage.scale.x = 0.5;
   endMessage.scale.y = 0.5;
   endMessage.position.set(180,10);
+
+  endMessage2.scale.x = 0.5;
+  endMessage2.scale.y = 0.5;
+  endMessage2.position.set(180,10);
 
 
   endScene.addChild(endMessage)
@@ -163,7 +176,7 @@ function setup() {
   //170 is the size of the full health bar 
   var outerBar = new PIXI.Graphics();
   outerBar.beginFill(0xFF0000);
-  outerBar.drawRect(0, 0, 2, 7);
+  outerBar.drawRect(0, 0, 1, 7);
   outerBar.endFill();
   outerBar.position.set(227,10)
   hpBar.addChild(outerBar);
@@ -189,7 +202,6 @@ function setup() {
            Resources["assets/images/enemy-3.png"]
            ]
 
-  //Make as many Enemies as there are `numberOfEnemies`
   for (var i = 0; i < numOfEnemies; i++) {
     //Make an enemy
     enemy = new Sprite(ENEMY_OPTIONS[randomInt(0,2)].texture); 
@@ -198,11 +210,13 @@ function setup() {
     //`xOffset` determines the point from the left of the screen
     //at which the first enemy should be added
     var x = spacing * i + xOffset;
-    //Give the enemy a random y position
     var y = randomInt(0, (stage.height - enemy.height)/6);
-    //Set the enemy's position
-      enemy.x = x;
-      enemy.y = y;
+
+    enemy.x = x;
+    enemy.y = y;
+
+    // Unique id 
+    enemy.id = i;
     
     enemy.vy = randomInt(1,2) * direction;
     enemy.vx = randomInt(1,2);
@@ -214,7 +228,6 @@ function setup() {
     //Add the enemy to the `stage`
     stage.addChild(enemy);
   }
-
 
 
     var velocityX = 0,
@@ -369,6 +382,7 @@ function gameLoop() {
 
     // lights up bed if they're hit by an enemy
     if(hitTestRectangle(bed, enemy)) {
+      abductorId = enemy.id;
       bedHit = true;
     }
 })
@@ -379,13 +393,6 @@ function gameLoop() {
 
 // COLLISION LOGIC 
 
-// message = new Text(
-//     "Alas! You've woken up.", 
-//     {fontFamily: "Futura", fontSize:'32', fill: "white"}
-//   );
-
-//   message.position.set(300,300);
-//   endScene.addChild(message);
 
 var pajamerHit, bedHit;
 
@@ -399,10 +406,9 @@ if (pajamerHit){
     // pajamer.texture = Resources["assets/images/sad_pajamer.png"]
     pajamer.alpha = 0.7;
     pajamer.tint = 0xFF9999;
-    hpBar.outer.width -= 1;
-    console.log(hpBar.outer.width);
+    hpBar.outer.width -= 2;
     if (hpBar.outer.width < -170) {
-    state = end;
+    state = end1;
   } 
 
 
@@ -411,9 +417,23 @@ if (pajamerHit){
       pajamer.alpha = 1;
 }
 
-
 if (bedHit){
-    bed.tint = 0xFF9999;
+
+  enemies.forEach(function(enemy) {
+    if (enemy.id === abductorId){
+      specificEnemy = enemy;
+    }
+  })
+  bed.x = specificEnemy.x - 20;
+  bed.y = specificEnemy.y + 25;
+  specificEnemy.vx = 0;
+  specificEnemy.vy = -2;
+  bed.tint = 0xFF9999;
+
+    if (bed.y < -30){
+      state = end2;
+    }
+
   } else {
     bed.tint = 0xffffff;
  }
@@ -435,6 +455,7 @@ function hitTestRectangle(sprite1, sprite2) {
 
   //Create a `collision` variable that will tell us
   //if a collision is occurring
+
   let collision = false;
 
   //Check whether the shapes of the sprites are overlapping. If they
@@ -449,9 +470,15 @@ function hitTestRectangle(sprite1, sprite2) {
 }
 
 
-function end() {
+function end1() {
   // stage.visible = false;
   stage.addChild(endMessage)
+  endScene.visible = true;
+}
+
+function end2() {
+  // stage.visible = false;
+  stage.addChild(endMessage2)
   endScene.visible = true;
 }
 
