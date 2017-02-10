@@ -67,30 +67,30 @@ In addition to the webpack entry file, there will be three scripts involved in t
 - [X] Setup all necessary Node modules, including getting webpack up and running installing `Pixi.js`.  
 - [X] Create `webpack.config.js` as well as `package.json`.  
 - [X] Learn the basics of `Pixi.js`. Complete the first part of the [Learning Pixi JS](https://github.com/kittykatattack/learningPixi) tutorial on Github
-- [ ] Write a basic entry file and the bare bones of all 3 scripts outlined above. Attempt to render the background and the player's object on screen (likely a basic sprite in place of the final ones).  
+- [X] Write a basic entry file and the bare bones of all 3 scripts outlined above. Attempt to render the background and the player's object on screen (likely a basic sprite in place of the final ones).  
 
 
 **Day 2: Get the player's character moving back and forth. Create enemy objects objects.**
 - [X] Have the player's character respond to key presses - keymaster added
-- [ ] Player faces the direction they're moving in (left vs. right) - need flipped sprite for this
+- [X] Player faces the direction they're moving in (left vs. right) - need flipped sprite for this
 - [X] Create enemy objects (with different appearances but functioning identically) that can at least move around randomly 
 - [ ] Gravity! 
 
 
 **Day 3: Finetune moving of enemy objects, missiles**
 - [ ] Enemy objects should move towards the player based on the quadrant that the player is located in
-- [ ] Create missiles that fire to the left or right (depending on which side the character is facing)
+- [X] Create missiles that fire and hit enemies.
 
 
 **Day 4: Hit detection (losing and winning)**
-- [ ] When a missile from the player hits an enemy, that enemy is cleared from the board.
-- [ ] LOSING: When the bed is hit by an enemy object, the game ends.
-- [ ] WINNING: If the player clears the board of enemies, they win the game! 
-- [ ] `You win!` modal
-- [ ] `You lose!` modal
+- [X] When a missile from the player hits an enemy, that enemy is cleared from the board.
+- [X] LOSING: When the bed is abducted by an enemy object, the game ends.
+- [X] WINNING: If the player clears the board of enemies, they win the game! 
+- [X] `You win!` modal
+- [X] `You lose!` modals
 
 **Day 5: Player's lives, sound effects**
-- [ ] When the player is hit by an enemy object, the enemy object is cleared from the board, but they lose a life (out of 3 total lives)
+- [X] When the player is hit by an enemy object, SP ("Sleep Points") go down
 - [ ] Add sounds for the following effects:
   * Background music - instrumental version of Rock-a-bye Baby? :full_moon_with_face:
 	* Missile hitting enemy
@@ -98,7 +98,7 @@ In addition to the webpack entry file, there will be three scripts involved in t
 - [ ] Add `mute` button 
 
 **Day 6: Polishing the game and gaming experience**
-- [ ] Replace basic sprites with more beautiful sprites
+- [X] Replace basic sprites with more beautiful sprites
 - [ ] Add `restart` and `help` button (which opens the Instructional modal)
   - [ ] `?` button re-displays the Instructions modal 
  	- [ ] `Help` button pauses the game 

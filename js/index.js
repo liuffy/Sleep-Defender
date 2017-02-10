@@ -1,5 +1,6 @@
 const PIXI = require('pixi.js');
 const Game = require('./game.js');
+import Howler from 'howler';
 // const Pajamer = require ('./pajamer.js');
 // const Enemy = require ('./enemies.js');
 
@@ -23,9 +24,9 @@ var stage = new Container;
 
 Loader
   .add([
-    "assets/images/pajamer_sprite.png",
-    "assets/images/sad_pajamer.png",
     "assets/images/enemy-1.png",
+    "assets/images/flipped_pajamer.png",
+    "assets/images/pajamer_sprites.json",
     "assets/images/enemy-2.png",
     "assets/images/enemy-3.png",
     "assets/images/bedroom_image.png",
@@ -34,6 +35,7 @@ Loader
     "assets/images/game_over.png",
     "assets/images/zzz.png",
     "assets/images/paused.png",
+    "assets/images/win1.png",
     "assets/images/game_over2.png"
     ])
   .on("progress", loadProgressHandler)
@@ -68,7 +70,7 @@ function contain(sprite, container) {
   }
 
   //Top
-  if (sprite.y < container.y && sprite.id !== abductorId) {
+  if (sprite.y < container.y) {
     sprite.y = container.y;
     collision = "top";
   }
@@ -103,31 +105,36 @@ function randomInt(min, max) {
  
 let specificEnemy;
 let abductorId;
-var pajamer, bed, enemy, state, zZz;
+var pajamer, bed, enemy, state, zZz, outerBar, deadId, deadEnemy, happyPajamerTexture, sadPajamerTexture,
+flippedPajamerTexture, endMessage, endMessage2, winMessage1, pausedMessage, hpBar, enemies;
 
-
+var fireSound;
 
 function setup() {
+
+var fireSound = new Howl({src:['assets/sounds/fire.wav']});
+var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
  console.log("All files loaded!");
   //Create the `cat` sprite from the texture
 
 
     //Create the `gameOver` scene
-  endScene = new Container(0xFF9999);
-  stage.addChild(endScene);
   //Make the `end` scene invisible when the game first starts
-  endScene.visible = false;
 
 
-
+// sprite.texture = new
 
   pajamer = new Sprite(
-    Resources["assets/images/pajamer_sprite.png"].texture
+    id["pajamer_sprite.png"]
   );
-  bedroom = new Sprite(
+  happyPajamerTexture = Texture.fromImage("assets/images/pajamer_sprite.png")
+  sadPajamerTexture =  Texture.fromImage("assets/images/sad_pajamer.png")
+  var bedroom = new Sprite(
     Resources["assets/images/bedroom_image.png"].texture
-  );  
+  );
+
+  flippedPajamerTexture = Texture.fromImage("assets/images/flipped_pajamer.png")  
 
   bed = new Sprite(
     Resources["assets/images/bed.png"].texture
@@ -139,6 +146,10 @@ function setup() {
 
   endMessage2 = new Sprite(
     Resources["assets/images/game_over2.png"].texture
+  );  
+
+  winMessage1 = new Sprite(
+    Resources["assets/images/win1.png"].texture
   );
 
   pausedMessage = new Sprite(
@@ -161,8 +172,6 @@ function setup() {
   endMessage2.position.set(180,10);
 
 
-  endScene.addChild(endMessage)
-
 
   pajamer.position.set(150,350)
   bed.position.set(405,383)
@@ -171,7 +180,8 @@ function setup() {
   bed.scale.y = 1.2;
 
   pajamer.vx = 0;
-  pajamer.vy = 0;   
+  pajamer.vy = 0; 
+
 
   bed.vx = 0;
   bed.vy = 0;
@@ -191,9 +201,8 @@ function setup() {
 
   stage.addChild(hpBar);
 
-
   //170 is the size of the full health bar 
-  var outerBar = new PIXI.Graphics();
+  outerBar = new PIXI.Graphics();
   outerBar.beginFill(0xFF0000);
   outerBar.drawRect(0, 0, 1, 7);
   outerBar.endFill();
@@ -207,15 +216,15 @@ function setup() {
 
 
   //Make the Enemies
-  var numOfEnemies = randomInt(6,8),
+  var numOfEnemies = randomInt(7,9),
       spacing = 30,
       xOffset = 150,
-      direction = 1.2;
+      direction = 1.7;
   //An array to store all the enemies
   enemies = [];
 
 
-    ENEMY_OPTIONS = [
+    var ENEMY_OPTIONS = [
             Resources["assets/images/enemy-1.png"], 
            Resources["assets/images/enemy-2.png"],
            Resources["assets/images/enemy-3.png"]
@@ -254,10 +263,6 @@ function setup() {
     accelerationX = 2,
     frictionX = 0.9;
 
-
-
-
-
   //KEYBOARD COMMANDS
   var left = keyboard(37),
       up = keyboard(38),
@@ -277,7 +282,7 @@ function setup() {
   fire.release = function(){
  zZz.position.set(pajamer.x, pajamer.y)
   stage.addChild(zZz);
-
+  fireSound.play();
   }
 
 
@@ -286,14 +291,12 @@ function setup() {
   }
 
   left.press = function() {
-
     pajamer.vx = -5;
     pajamer.vy = 0;
   };
 
   //Left arrow key `release` method
   left.release = function() {
-
     //If the left arrow has been released, and the right arrow isn't down,
     //and the pajamer isn't moving vertically:
     //Stop the pajamer
@@ -380,6 +383,9 @@ function keyboard(keyCode) {
 }
 
 
+
+
+
 function gameLoop() {
   //Loop this function at 60 frames per second
   requestAnimationFrame(gameLoop);
@@ -392,18 +398,32 @@ function gameLoop() {
 }
 
 
-
  function play(){
 
 
+   if (enemies.length === 0) {
+    state = win1;
+   }
 
+   bed.x += bed.vx;
+   bed.y += bed.vy;
+
+  if(stage.children.indexOf(specificEnemy) === -1 && bed.y < 383){
+    bed.vy = 1
+  } else if (bed.y > 382){
+    bed.vy = 0;
+  }
+
+  if (stage.children.indexOf(zZz) !== 0){
     zZz.scale.x = 0.5;
     zZz.scale.y = 0.5;
-    zZz.vx = 0
-    zZz.vy = -4
+    zZz.vx = 0;
+    zZz.vy = -8;
 
     zZz.x += zZz.vx;
     zZz.y += zZz.vy;
+  }
+
 
 
     pajamer.x += pajamer.vx;
@@ -411,7 +431,7 @@ function gameLoop() {
 
 
 // ENEMY CODE
-  enemies.forEach(function(enemy) {
+    enemies.forEach(function(enemy) {
     enemy.y += enemy.vy;
     enemy.x += enemy.vx;
 
@@ -428,10 +448,19 @@ function gameLoop() {
       pajamerHit = true;
     }
 
+    if(stage.children.indexOf(enemy) === -1){
+      enemies.splice(enemies.indexOf(enemy), 1)
+    }
+
     // lights up bed if they're hit by an enemy
     if(hitTestRectangle(bed, enemy)) {
       abductorId = enemy.id;
       bedHit = true;
+    }
+
+      if(hitTestRectangle(zZz, enemy)) {
+      deadId = enemy.id;
+      enemyHit = true;
     }
 })
 
@@ -442,34 +471,59 @@ function gameLoop() {
 // COLLISION LOGIC 
 
 
-var pajamerHit, bedHit;
+var pajamerHit, bedHit, enemyHit;
 
-// var sadTexture = Texture.fromFrame('sad_pajamer.png'); 
-// var happyTexture = Texture.fromFrame('pajamer_sprite.png')
+
+if (enemyHit){
+
+  stage.removeChild(zZz);
+  zZz.x = -20;
+  zZz.y = -20;
+    //  if(enemies.indexOf(specificEnemy) === -1){
+    //     bed.vy = 1
+    // }
+  enemies.forEach(function(enemy){
+    if (enemy.id === deadId){
+      deadEnemy = enemy;
+    stage.removeChild(deadEnemy)
+    }
+  })
+}
 
 if (pajamerHit){
     // pajamer.texture = Resources["assets/images/sad_pajamer.png"]
-
     // translucent when hit
+    pajamer.texture = sadPajamerTexture;
     pajamer.alpha = 0.7;
     pajamer.tint = 0xFF9999;
+    hpBar.tint = 0xFF9999;
     hpBar.outer.width -= 2;
+
     if (hpBar.outer.width < -170) {
-    state = end1;
-  } 
+      state = end1;
+    } 
 
 
  }  else {
       pajamer.tint = 0xffffff;
+      hpBar.tint = 0xffffff;
       pajamer.alpha = 1;
+
+      if (pajamer.vx >= 0){
+        pajamer.texture = happyPajamerTexture;
+      } else {
+        pajamer.texture = flippedPajamerTexture;
+      }
 }
 
 if (bedHit){
   enemies.forEach(function(enemy) {
-    if (enemy.id === abductorId && bed.vy === 0){
+    if (enemy.id === abductorId && bed.y > 300){
       specificEnemy = enemy;
     }
   })
+
+  if (stage.children.indexOf(specificEnemy) !== -1){
   bed.x = specificEnemy.x - 20;
   bed.y = specificEnemy.y + 25;
 
@@ -477,8 +531,11 @@ if (bedHit){
   specificEnemy.vy = -2;
   bed.vy = specificEnemy.vy
   bed.tint = 0xFF9999;
+  } else {
+    bed.tint = 0xD0A9F5;
+  }
 
-    if (bed.y < -60){
+    if (specificEnemy.y === 0){
       state = end2;
     }
 
@@ -524,12 +581,16 @@ function pause(){
 function end1() {
   // stage.visible = false;
   stage.addChild(endMessage)
-  endScene.visible = true;
+  // endScene.visible = true;
 }
 
 function end2() {
   // stage.visible = false;
   stage.addChild(endMessage2)
-  endScene.visible = true;
+  // endScene.visible = true;
 }
 
+
+function win1(){
+  stage.addChild(winMessage1)
+}

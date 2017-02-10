@@ -1,0 +1,39 @@
+{"frames": {
+
+"flipped_pajamer.png":
+{
+	"frame": {"x":0,"y":0,"w":74,"h":74},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":74},
+	"sourceSize": {"w":74,"h":74},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"pajamer_sprite.png":
+{
+	"frame": {"x":74,"y":0,"w":74,"h":74},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":74},
+	"sourceSize": {"w":74,"h":74},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"sad_pajamer.png":
+{
+	"frame": {"x":148,"y":0,"w":74,"h":74},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":74},
+	"sourceSize": {"w":74,"h":74},
+	"pivot": {"x":0.5,"y":0.5}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "pajamer_sprites.png",
+	"format": "RGBA8888",
+	"size": {"w":222,"h":74},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:1a65c9a7350520eb42f661373efba4db:e2ac7801e314418a29d74d4c0d20a157:6aa47a3d7aa59b9e896a323361ddf38f$"
+}
+}
