@@ -145,6 +145,11 @@ function setup() {
     Resources["assets/images/paused.png"].texture
   );
 
+   zZz = new Sprite(
+  Resources["assets/images/zzz.png"].texture
+  );
+
+
   pausedMessage.position.set(240, 150)
 
   endMessage.scale.x = 0.5;
@@ -270,8 +275,9 @@ function setup() {
   }
 
   fire.release = function(){
-    stage.addChild(zZz);
-    console.log(zZz.vy);
+ zZz.position.set(pajamer.x, pajamer.y)
+  stage.addChild(zZz);
+
   }
 
 
@@ -389,25 +395,19 @@ function gameLoop() {
 
  function play(){
 
-   zZz = new Sprite(
-    Resources["assets/images/zzz.png"].texture
-    );
 
-   console.log(zZz.x, zZz.y)
-   console.log(zZz.vy)
+
+    zZz.scale.x = 0.5;
+    zZz.scale.y = 0.5;
+    zZz.vx = 0
+    zZz.vy = -4
+
     zZz.x += zZz.vx;
     zZz.y += zZz.vy;
 
-   zZz.position.set(pajamer.x, pajamer.y)
-    zZz.scale.x = 0.5;
-    zZz.scale.y = 0.5;
-    zZz.vx = -0.3
-    zZz.vy = -0.7
 
-
-
-  pajamer.x += pajamer.vx;
-  pajamer.y += pajamer.vy;
+    pajamer.x += pajamer.vx;
+    pajamer.y += pajamer.vy;
 
 
 // ENEMY CODE
