@@ -78,7 +78,7 @@ In addition to the webpack entry file, there will be three scripts involved in t
 
 
 **Day 3: Finetune moving of enemy objects, missiles**
-- [ ] Enemy objects should move towards the player based on the quadrant that the player is located in
+- [ ] When close enough to the player, enemy objects should move towards the player based on the quadrant that the player is located in
 - [X] Create missiles that fire and hit enemies.
 
 
@@ -92,17 +92,19 @@ In addition to the webpack entry file, there will be three scripts involved in t
 **Day 5: Player's lives, sound effects**
 - [X] When the player is hit by an enemy object, SP ("Sleep Points") go down
 - [ ] Add sounds for the following effects:
+  * Firing sound 
   * Background music - instrumental version of Rock-a-bye Baby? :full_moon_with_face:
 	* Missile hitting enemy
 	* Enemy hitting player, bed
-- [ ] Add `mute` button 
 
 **Day 6: Polishing the game and gaming experience**
 - [X] Replace basic sprites with more beautiful sprites
 - [ ] Add `restart` and `help` button (which opens the Instructional modal)
+- [ ] Instructional screen at start 
   - [ ] `?` button re-displays the Instructions modal 
  	- [ ] `Help` button pauses the game 
 	- [ ] `Restart` button restarts the game
+	- [ ] Add `mute` button 
 
 
 ### Bonus features :sparkles:

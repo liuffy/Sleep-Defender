@@ -1,6 +1,6 @@
 const PIXI = require('pixi.js');
 const Game = require('./game.js');
-import Howler from 'howler';
+import {Howl, Howler} from 'howler'; 
 // const Pajamer = require ('./pajamer.js');
 // const Enemy = require ('./enemies.js');
 
@@ -36,7 +36,11 @@ Loader
     "assets/images/zzz.png",
     "assets/images/paused.png",
     "assets/images/win1.png",
-    "assets/images/game_over2.png"
+    "assets/images/game_over2.png",
+    "assets/sounds/fire.wav",
+    "assets/sounds/pop.mp3",
+    "assets/sounds/lullaby.wav",
+    "assets/sounds/squish.wav"
     ])
   .on("progress", loadProgressHandler)
   .load(setup);
@@ -49,10 +53,11 @@ function loadProgressHandler(loader, resource) {
 
 function pauseGame() {
   if (state === play) {
-    state = pause
-  } else if (state === pause) {
+    state = paused
+  } else if (state === paused) {
     stage.removeChild(pausedMessage)
     state = play
+    lullabyLoop.play()
   }
 }
 
@@ -108,22 +113,29 @@ let abductorId;
 var pajamer, bed, enemy, state, zZz, outerBar, deadId, deadEnemy, happyPajamerTexture, sadPajamerTexture,
 flippedPajamerTexture, endMessage, endMessage2, winMessage1, pausedMessage, hpBar, enemies;
 
-var fireSound;
+// Sounds 
+let squishSound;
 
+// var backgroundLoop = new Howl({src:['assets/sounds/background.wav'], volume: 0.1, loop: true});
+var lullabyLoop = new Howl({src:['assets/sounds/lullaby.wav'], volume: 0.3, loop: true});
+var fireSound = new Howl({src:['assets/sounds/fire.wav'], loop: false});
+ 
 function setup() {
 
-var fireSound = new Howl({src:['assets/sounds/fire.wav']});
+console.log(state)
+// Setup for Sounds
+
+// Only play once loaded 
+lullabyLoop.once('load', function(){
+lullabyLoop.play();
+});
+
+
 var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
  console.log("All files loaded!");
   //Create the `cat` sprite from the texture
 
-
-    //Create the `gameOver` scene
-  //Make the `end` scene invisible when the game first starts
-
-
-// sprite.texture = new
 
   pajamer = new Sprite(
     id["pajamer_sprite.png"]
@@ -338,9 +350,6 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     }
   };
 
-
-
-
   state = play;
   gameLoop();
 }
@@ -385,7 +394,6 @@ function keyboard(keyCode) {
 
 
 
-
 function gameLoop() {
   //Loop this function at 60 frames per second
   requestAnimationFrame(gameLoop);
@@ -399,6 +407,7 @@ function gameLoop() {
 
 
  function play(){
+//
 
 
    if (enemies.length === 0) {
@@ -423,9 +432,6 @@ function gameLoop() {
     zZz.x += zZz.vx;
     zZz.y += zZz.vy;
   }
-
-
-
     pajamer.x += pajamer.vx;
     pajamer.y += pajamer.vy;
 
@@ -484,15 +490,19 @@ if (enemyHit){
     // }
   enemies.forEach(function(enemy){
     if (enemy.id === deadId){
+      // let popSound = new Howl({src:['assets/sounds/pop.mp3']});
+      // popSound.play();
       deadEnemy = enemy;
     stage.removeChild(deadEnemy)
     }
   })
 }
 
+
 if (pajamerHit){
     // pajamer.texture = Resources["assets/images/sad_pajamer.png"]
     // translucent when hit
+    // let squishSound = new Howl({src:['assets/sounds/squish.wav']});
     pajamer.texture = sadPajamerTexture;
     pajamer.alpha = 0.7;
     pajamer.tint = 0xFF9999;
@@ -574,23 +584,26 @@ function hitTestRectangle(sprite1, sprite2) {
   return collision;
 }
 
-function pause(){
+function paused(){
   stage.addChild(pausedMessage)
+  lullabyLoop.pause()
+  fireSound.pause()
 }
 
 function end1() {
   // stage.visible = false;
   stage.addChild(endMessage)
-  // endScene.visible = true;
+  lullabyLoop.pause()
 }
 
 function end2() {
   // stage.visible = false;
   stage.addChild(endMessage2)
-  // endScene.visible = true;
+  lullabyLoop.pause()
 }
 
 
 function win1(){
   stage.addChild(winMessage1)
+    lullabyLoop.pause()
 }
