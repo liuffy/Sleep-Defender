@@ -40,6 +40,7 @@ Loader
     "assets/sounds/fire.wav",
     "assets/sounds/pop.mp3",
     "assets/sounds/lullaby.wav",
+    "assets/sounds/backgroundLoop.wav",
     "assets/sounds/squish.wav"
     ])
   .on("progress", loadProgressHandler)
@@ -57,7 +58,7 @@ function pauseGame() {
   } else if (state === paused) {
     stage.removeChild(pausedMessage)
     state = play
-    lullabyLoop.play()
+    backgroundLoop.play()
   }
 }
 
@@ -100,14 +101,14 @@ function contain(sprite, container) {
 
 
 
-
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 
 // Variables I want to access throughout the game 
- 
+
+
 let specificEnemy;
 let abductorId;
 var pajamer, bed, enemy, state, zZz, outerBar, deadId, deadEnemy, happyPajamerTexture, sadPajamerTexture,
@@ -116,18 +117,17 @@ flippedPajamerTexture, endMessage, endMessage2, winMessage1, pausedMessage, hpBa
 // Sounds 
 let squishSound;
 
-// var backgroundLoop = new Howl({src:['assets/sounds/background.wav'], volume: 0.1, loop: true});
-var lullabyLoop = new Howl({src:['assets/sounds/lullaby.wav'], volume: 0.3, loop: true});
+var backgroundLoop = new Howl({src:['assets/sounds/backgroundLoop.wav'], volume: 0.16, loop: true});
+var lullabyLoop = new Howl({src:['assets/sounds/lullaby.wav'], volume: 0.1, loop: true});
 var fireSound = new Howl({src:['assets/sounds/fire.wav'], loop: false});
- 
+
 function setup() {
 
-console.log(state)
 // Setup for Sounds
 
 // Only play once loaded 
-lullabyLoop.once('load', function(){
-lullabyLoop.play();
+backgroundLoop.once('load', function(){
+backgroundLoop.play();
 });
 
 
@@ -292,7 +292,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
   }
 
   fire.release = function(){
- zZz.position.set(pajamer.x, pajamer.y)
+ zZz.position.set(pajamer.x + 25, pajamer.y)
   stage.addChild(zZz);
   fireSound.play();
   }
@@ -407,8 +407,10 @@ function gameLoop() {
 
 
  function play(){
-//
-
+  
+  if (state === win1){
+  lullabyLoop.play();
+}
 
    if (enemies.length === 0) {
     state = win1;
@@ -435,15 +437,38 @@ function gameLoop() {
     pajamer.x += pajamer.vx;
     pajamer.y += pajamer.vy;
 
-
+    var run = enemy.x - pajamer.x;
+    var rise = enemy.y - pajamer.y;
+    var distance = Math.sqrt( (Math.pow( run, 2)) + (Math.pow( rise, 2)) )
+    var unitX = run / distance;
+    var unitY = rise / distance; 
 // ENEMY CODE
+    var chasers = [];
     enemies.forEach(function(enemy) {
-    enemy.y += enemy.vy;
-    enemy.x += enemy.vx;
+      if ((distance < 200 && enemy !== specificEnemy && (stage.children.indexOf(enemy))% 2 === 0  ))  {
+        chasers.push(enemy)
+
+      } else {
+        enemy.y += enemy.vy;
+        enemy.x += enemy.vx;
+      }
+
+      console.log(chasers)
+
+    chasers.forEach(function(chaser){
+    if (distance > 200 || chaser.y > 400){
+      chasers.splice(chasers.indexOf(chaser), 1)
+    } else {
+      chaser.x -= unitX * 0.95;
+      chaser.y -= unitY * 0.95;
+    }
+})
+
 
     var enemyHitsWall = contain(enemy, {x: 0, y: 0, width: 800, height: 440});
     //If the enemy hits the top or bottom of the stage, reverse
     //its direction
+
     if (enemyHitsWall === "top" || enemyHitsWall === "bottom") {
       enemy.vy *= -1;
       enemy.vx *= -1; // make em bound around
@@ -497,7 +522,6 @@ if (enemyHit){
     }
   })
 }
-
 
 if (pajamerHit){
     // pajamer.texture = Resources["assets/images/sad_pajamer.png"]
@@ -586,24 +610,24 @@ function hitTestRectangle(sprite1, sprite2) {
 
 function paused(){
   stage.addChild(pausedMessage)
-  lullabyLoop.pause()
+  backgroundLoop.pause()
   fireSound.pause()
 }
 
 function end1() {
   // stage.visible = false;
   stage.addChild(endMessage)
-  lullabyLoop.pause()
+  backgroundLoop.pause()
 }
 
 function end2() {
   // stage.visible = false;
   stage.addChild(endMessage2)
-  lullabyLoop.pause()
+  backgroundLoop.pause()
 }
 
 
 function win1(){
   stage.addChild(winMessage1)
-    lullabyLoop.pause()
+    backgroundLoop.pause()
 }
