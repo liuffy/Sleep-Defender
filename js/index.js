@@ -26,11 +26,16 @@ Loader
   .add([
     "assets/images/play_button.gif",
     "assets/images/back_button.png",
+    "assets/images/help_button.png",
     "assets/images/github_button.png",
+    "assets/images/linkedin_button.png",
     "assets/images/controls_button.gif",
     "assets/images/instructions_button.png",
+    "assets/images/music-on.png",
+    "assets/images/music-off.png",
     "assets/images/instructions_screen.png",
     "assets/images/controls_screen.png",
+    "assets/images/controls_modal.png",
     "assets/images/enemy-1.png",
     "assets/images/flipped_pajamer.png",
     "assets/images/pajamer_sprites.json",
@@ -65,10 +70,27 @@ function loadProgressHandler(loader, resource) {
 function pauseGame() {
   if (state === play) {
     state = paused
-  } else if (state === paused) {
+  } else if (state === paused || controlsPaused) {
     stage.removeChild(pausedMessage)
+    stage.removeChild(controlsModal)
     state = play
+
+    if (muteButton.texture === onTexture){
+      backgroundLoop.play()
+    }
+  }
+}
+
+function soundToggle(){
+  if (muteButton.texture === onTexture){
+    backgroundLoop.pause()
+    fireSound.mute()
+    muteButton.texture = offTexture
+
+  } else if (muteButton.texture === offTexture){
+    muteButton.texture = onTexture
     backgroundLoop.play()
+    fireSound.play()
   }
 }
 
@@ -125,8 +147,11 @@ var pajamer,
     playButton,
     howButton, 
     backButton,
+    muteButton,
+    helpButton,
     controlsButton,
     githubButton,
+    linkedinButton,
     bed, 
     enemy, 
     state, 
@@ -134,12 +159,15 @@ var pajamer,
     outerBar, 
     deadId, 
     deadEnemy, 
+    onTexture,
+    offTexture,
     happyPajamerTexture, 
     sadPajamerTexture,
     flippedPajamerTexture, 
     mainScreen,
     instructionsScreen,
     controlsScreen,
+    controlsModal,
     endMessage, 
     endMessage2, 
     winMessage1,
@@ -171,6 +199,15 @@ var screenButtonSound = new Howl({src:['assets/sounds/instructions.mp3'], loop: 
   //Left arrow key `press` method
 
 
+    function helpModalShow(){
+      if (stage.children.indexOf(controlsModal) === -1){
+        state = controlsPaused
+        // stage.addChild(controlsModal)
+      } else 
+        // stage.removeChild(controlsModal)
+                pauseGame()
+    }
+
   restart.release = function(){
     // setup()
   }
@@ -178,7 +215,10 @@ var screenButtonSound = new Howl({src:['assets/sounds/instructions.mp3'], loop: 
   fire.release = function(){
  zZz.position.set(pajamer.x + 25, pajamer.y)
   stage.addChild(zZz);
-  fireSound.play();
+
+    if (muteButton.texture === onTexture){
+      fireSound.play();
+    }
   }
 
 
@@ -320,14 +360,21 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
   Resources["assets/images/zzz.png"].texture
   );
 
+    controlsModal = new Sprite(
+      Resources["assets/images/controls_modal.png"].texture
+  );
 
 
 
   pausedMessage.position.set(240, 150)
 
+  controlsModal.scale.x = 0.8;
+  controlsModal.scale.y = 0.8;
   endMessage.scale.x = 0.5;
   endMessage.scale.y = 0.5;
+
   endMessage.position.set(180,10);
+  controlsModal.position.set(150,80);
 
   endMessage2.scale.x = 0.5;
   endMessage2.scale.y = 0.5;
@@ -364,10 +411,29 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
 
 
+    muteButton = new Sprite(
+      Resources["assets/images/music-on.png"].texture
+  );    
 
-  stage.addChild(bedroom);
-  stage.addChild(pajamer);
-  stage.addChild(bed);
+    helpButton = new Sprite(
+      Resources["assets/images/help_button.png"].texture
+  );
+    onTexture = Texture.fromImage("assets/images/music-on.png")
+    offTexture =  Texture.fromImage("assets/images/music-off.png")
+
+    muteButton.scale.x = 0.4;
+    muteButton.scale.y = 0.4;   
+    helpButton.scale.x = 0.6;
+    helpButton.scale.y = 0.6;
+
+    muteButton.position.set(730, 50)
+    helpButton.position.set(720, 90)
+
+    stage.addChild(bedroom);
+    stage.addChild(pajamer);
+    stage.addChild(bed);
+    stage.addChild(muteButton);
+    stage.addChild(helpButton);
 
 
  // HEALTH
@@ -415,6 +481,10 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     githubButton = new Sprite(
     Resources["assets/images/github_button.png"].texture
   );
+    linkedinButton = new Sprite(
+    Resources["assets/images/linkedin_button.png"].texture
+  );
+
 
 
 // Make buttons on screen clickable
@@ -423,12 +493,44 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     backButton.interactive = true;
     controlsButton.interactive = true;
     githubButton.interactive = true;
+    linkedinButton.interactive = true;
+    muteButton.interactive = true;
+    helpButton.interactive = true;
+
+    // function muteButtonClick(){
+    //   if (muteButton.texture === onTexture){
+    //     backgroundLoop.pause()
+    //     fireSound.pause()
+    //     muteButton.texture = offTexture
+    //   } else {
+    //     backgroundLoop.play()
+    //     fireSound.play()
+    //     muteButton.texture = onTexture
+    //   }
+    // }
+
+
+    helpButton
+    .on('mouseup', helpModalShow)
+
+    muteButton
+    .on('mouseup', soundToggle)
+    .on('mouseover', brightenButton)
+    .on('mouseout', dimButtonUp)
+
+    linkedinButton
+    .on('mouseover', brightenButton)
+    .on('mouseout', dimButtonUp)
+    .on('mouseup', linkedinButtonUp)
+    .on('touchend', linkedinButtonUp)
+    .on('touchendoutside', dimButtonUp);
 
     githubButton
     .on('mouseover', brightenButton)
     .on('mouseout', dimButtonUp)
     .on('mouseup', githubButtonUp)
-    .on('touchend', githubButtonUp);
+    .on('touchend', githubButtonUp)
+    .on('touchendoutside', dimButtonUp);
 
     playButton
     .on('mousedown', playButtonDown)
@@ -437,7 +539,8 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     .on('mouseupoutside', dimButtonUp)
     .on('mouseup', playButtonUp)
     .on('touchstart', playButtonDown)
-    .on('touchend', playButtonUp);
+    .on('touchend', playButtonUp)
+    .on('touchendoutside', dimButtonUp);
 
     howButton
     .on('mousedown', howButtonDown)
@@ -446,7 +549,8 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     .on('mouseupoutside', dimButtonUp)
     .on('mouseup', howButtonUp)
     .on('touchstart', howButtonDown)
-    .on('touchend', howButtonUp);
+    .on('touchend', howButtonUp)
+    .on('touchendoutside', dimButtonUp);
 
     backButton
     .on('mousedown', backButtonDown)
@@ -455,7 +559,9 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     .on('mouseupoutside', dimButtonUp)
     .on('mouseup', backButtonUp)
     .on('touchstart', backButtonDown)
-    .on('touchend', backButtonUp);
+    .on('touchend', backButtonUp)
+    .on('touchendoutside', dimButtonUp);
+
 
     controlsButton
     .on('mousedown', controlsButtonDown)
@@ -464,21 +570,28 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     .on('mouseupoutside', dimButtonUp)
     .on('mouseup', controlsButtonUp)
     .on('touchstart', controlsButtonDown)
-    .on('touchend', controlsButtonUp);
+    .on('touchend', controlsButtonUp)
+    .on('touchendoutside', dimButtonUp);
+
 
 
     playButton.position.set(320,270)
-    githubButton.position.set(710, 365)
+    linkedinButton.position.set(670, 369)
+    githubButton.position.set(725, 367)
     howButton.position.set(255,320)
     controlsButton.position.set(285,370)
     backButton.position.set(620,50)
+
     backButton.scale.x = 0.6;
     backButton.scale.y = 0.6;
     controlsButton.scale.y = 0.9;
-    githubButton.scale.x = 0.4;
-    githubButton.scale.y = 0.4;
+    githubButton.scale.x = 0.43;
+    githubButton.scale.y = 0.43;    
+    linkedinButton.scale.x = 0.3;
+    linkedinButton.scale.y = 0.3;
 
     playButton.alpha = 0.8;
+    linkedinButton.alpha = 0.8;
     githubButton.alpha = 0.8;
     howButton.alpha = 0.8;
     controlsButton.alpha = 0.8;
@@ -486,6 +599,10 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
     function githubButtonUp(){
       window.open("https://github.com/liuffy");
+    }    
+
+    function linkedinButtonUp(){
+      window.open("https://www.linkedin.com/in/sophia-liu-a9660229");
     }
 
     function playButtonDown(){
@@ -819,6 +936,12 @@ function paused(){
   fireSound.pause()
 }
 
+function controlsPaused(){
+  stage.addChild(controlsModal)
+  backgroundLoop.pause()
+  fireSound.pause()
+}
+
 function end1() {
   // stage.visible = false;
   stage.addChild(endMessage)
@@ -841,6 +964,7 @@ function welcome(){
   stage.addChild(mainScreen)
   stage.addChild(playButton)
   stage.addChild(githubButton)
+  stage.addChild(linkedinButton)
   stage.addChild(howButton)
   stage.addChild(controlsButton)
 }
