@@ -36,6 +36,7 @@ Loader
     "assets/images/zzz.png",
     "assets/images/paused.png",
     "assets/images/win1.png",
+    "assets/images/main-screen.png",
     "assets/images/game_over2.png",
     "assets/sounds/fire.wav",
     "assets/sounds/pop.mp3",
@@ -111,8 +112,25 @@ function randomInt(min, max) {
 
 let specificEnemy;
 let abductorId;
-var pajamer, bed, enemy, state, zZz, outerBar, deadId, deadEnemy, happyPajamerTexture, sadPajamerTexture,
-flippedPajamerTexture, endMessage, endMessage2, winMessage1, pausedMessage, hpBar, enemies;
+var pajamer, 
+    bed, 
+    enemy, 
+    state, 
+    zZz, 
+    outerBar, 
+    deadId, 
+    deadEnemy, 
+    happyPajamerTexture, 
+    sadPajamerTexture,
+    flippedPajamerTexture, 
+    mainScreen,
+    endMessage, 
+    endMessage2, 
+    winMessage1,
+    welcome, 
+    pausedMessage, 
+    hpBar, 
+    enemies;
 
 // Sounds 
 let squishSound;
@@ -121,11 +139,26 @@ var backgroundLoop = new Howl({src:['assets/sounds/backgroundLoop.wav'], volume:
 var lullabyLoop = new Howl({src:['assets/sounds/lullaby.wav'], volume: 0.1, loop: true});
 var fireSound = new Howl({src:['assets/sounds/fire.wav'], loop: false});
 
+
 function setup() {
+
+    mainScreen = new Sprite(
+    Resources["assets/images/main-screen.png"].texture
+  );
+
+    mainScreen.visible = true;
+  stage.addChild(mainScreen)
+
+  console.log(stage.children)
+  state = welcome;
 
 // Setup for Sounds
 
 // Only play once loaded 
+
+if (state === play) {
+
+
 backgroundLoop.once('load', function(){
 backgroundLoop.play();
 });
@@ -221,8 +254,6 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
   outerBar.position.set(227,10)
   hpBar.addChild(outerBar);
   hpBar.outer = outerBar;
-
-
 
   // ENEMIES 
 
@@ -349,9 +380,10 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
       pajamer.vy = 0;
     }
   };
-
   state = play;
+  }
   gameLoop();
+
 }
 
 function keyboard(keyCode) {
@@ -408,9 +440,6 @@ function gameLoop() {
 
  function play(){
   
-  if (state === win1){
-  lullabyLoop.play();
-}
 
    if (enemies.length === 0) {
     state = win1;
@@ -453,14 +482,12 @@ function gameLoop() {
         enemy.x += enemy.vx;
       }
 
-      console.log(chasers)
-
     chasers.forEach(function(chaser){
     if (distance > 200 || chaser.y > 400){
       chasers.splice(chasers.indexOf(chaser), 1)
     } else {
-      chaser.x -= unitX * 0.95;
-      chaser.y -= unitY * 0.95;
+      chaser.x -= unitX * 1.1;
+      chaser.y -= unitY * 1.1;
     }
 })
 
@@ -630,4 +657,9 @@ function end2() {
 function win1(){
   stage.addChild(winMessage1)
     backgroundLoop.pause()
+}
+
+function welcome(){
+  stage.addChild(mainScreen)
+    console.log(stage.children)
 }

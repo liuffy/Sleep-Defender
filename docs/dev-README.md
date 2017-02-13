@@ -78,7 +78,7 @@ In addition to the webpack entry file, there will be three scripts involved in t
 
 
 **Day 3: Finetune moving of enemy objects, missiles**
-- [ ] When close enough to the player, enemy objects should move towards the player based on the quadrant that the player is located in
+- [X] When close enough to the player, enemy objects should move towards the player based on the quadrant that the player is located in
 - [X] Create missiles that fire and hit enemies.
 
 
