@@ -26,8 +26,11 @@ Loader
   .add([
     "assets/images/play_button.gif",
     "assets/images/back_button.png",
+    "assets/images/github_button.png",
+    "assets/images/controls_button.gif",
     "assets/images/instructions_button.png",
     "assets/images/instructions_screen.png",
+    "assets/images/controls_screen.png",
     "assets/images/enemy-1.png",
     "assets/images/flipped_pajamer.png",
     "assets/images/pajamer_sprites.json",
@@ -122,6 +125,8 @@ var pajamer,
     playButton,
     howButton, 
     backButton,
+    controlsButton,
+    githubButton,
     bed, 
     enemy, 
     state, 
@@ -134,6 +139,7 @@ var pajamer,
     flippedPajamerTexture, 
     mainScreen,
     instructionsScreen,
+    controlsScreen,
     endMessage, 
     endMessage2, 
     winMessage1,
@@ -385,6 +391,10 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
     instructionsScreen = new Sprite(
     Resources["assets/images/instructions_screen.png"].texture
+  );    
+
+    controlsScreen = new Sprite(
+    Resources["assets/images/controls_screen.png"].texture
   );
 
     playButton = new Sprite(
@@ -393,10 +403,17 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
     howButton = new Sprite(
     Resources["assets/images/instructions_button.png"].texture
+  );    
+
+    controlsButton = new Sprite(
+    Resources["assets/images/controls_button.gif"].texture
   );
 
     backButton = new Sprite(
     Resources["assets/images/back_button.png"].texture
+  );
+    githubButton = new Sprite(
+    Resources["assets/images/github_button.png"].texture
   );
 
 
@@ -404,31 +421,72 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     playButton.interactive = true; 
     howButton.interactive = true;
     backButton.interactive = true;
+    controlsButton.interactive = true;
+    githubButton.interactive = true;
+
+    githubButton
+    .on('mouseover', brightenButton)
+    .on('mouseout', dimButtonUp)
+    .on('mouseup', githubButtonUp)
+    .on('touchend', githubButtonUp);
 
     playButton
     .on('mousedown', playButtonDown)
+    .on('mouseover', brightenButton)
+    .on('mouseout', dimButtonUp)
+    .on('mouseupoutside', dimButtonUp)
     .on('mouseup', playButtonUp)
     .on('touchstart', playButtonDown)
     .on('touchend', playButtonUp);
 
     howButton
     .on('mousedown', howButtonDown)
+    .on('mouseover', brightenButton)
+    .on('mouseout', dimButtonUp)
+    .on('mouseupoutside', dimButtonUp)
     .on('mouseup', howButtonUp)
     .on('touchstart', howButtonDown)
     .on('touchend', howButtonUp);
 
     backButton
     .on('mousedown', backButtonDown)
+    .on('mouseover', brightenButton)
+    .on('mouseout', dimButtonUp)
+    .on('mouseupoutside', dimButtonUp)
     .on('mouseup', backButtonUp)
     .on('touchstart', backButtonDown)
     .on('touchend', backButtonUp);
 
+    controlsButton
+    .on('mousedown', controlsButtonDown)
+    .on('mouseover', brightenButton)
+    .on('mouseout', dimButtonUp)
+    .on('mouseupoutside', dimButtonUp)
+    .on('mouseup', controlsButtonUp)
+    .on('touchstart', controlsButtonDown)
+    .on('touchend', controlsButtonUp);
+
 
     playButton.position.set(320,270)
+    githubButton.position.set(710, 365)
     howButton.position.set(255,320)
+    controlsButton.position.set(285,370)
     backButton.position.set(620,50)
     backButton.scale.x = 0.6;
     backButton.scale.y = 0.6;
+    controlsButton.scale.y = 0.9;
+    githubButton.scale.x = 0.4;
+    githubButton.scale.y = 0.4;
+
+    playButton.alpha = 0.8;
+    githubButton.alpha = 0.8;
+    howButton.alpha = 0.8;
+    controlsButton.alpha = 0.8;
+      
+
+    function githubButtonUp(){
+      window.open("https://github.com/liuffy");
+    }
 
     function playButtonDown(){
       playButton.tint = 0xd623fe;
@@ -436,6 +494,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     }
     
     function playButtonUp(){
+      playButton.tint = 0xFFFFFF;
       backgroundLoop.play();
       state = play;
     }
@@ -445,28 +504,46 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
       howButton.tint = 0x007fff;
     }
 
+    function controlsButtonDown(){
+      screenButtonSound.play()
+      controlsButton.tint = 0x717271;
+    }
+
+    function controlsButtonUp(){
+      state = controls;
+      controlsButton.tint = 0xFFFFFF;
+    }
+
+
     function howButtonUp(){
       state = instructions;
+      howButton.tint = 0xFFFFFF;
     }
 
     function backButtonDown(){
       backButton.tint = 0xd623fe;
       screenButtonSound.play()
     }
+
     function backButtonUp(){
+      backButton.tint = 0xFFFFFF;
       state = welcome
       stage.removeChild(instructionsScreen)
+      stage.removeChild(controlsScreen)
       stage.removeChild(backButton)
+    }
+
+    function brightenButton(button){
+      this.alpha = 1;
+    }
+
+    function dimButtonUp(button){
+      this.tint = 0xFFFFFF;
+      this.alpha = 0.8
     }
 
 
   state = welcome;
-
-
-// Setup for Sounds
-
-// Only play once loaded 
-
 
   gameLoop();
 
@@ -530,6 +607,7 @@ function gameLoop() {
   stage.removeChild(mainScreen)
   stage.removeChild(playButton)
   stage.removeChild(howButton)
+  stage.removeChild(controlsButton)
 
    if (enemies.length === 0) {
     state = win1;
@@ -729,6 +807,12 @@ function instructions(){
   stage.addChild(instructionsScreen)
   stage.addChild(backButton)
 }
+
+function controls(){
+  stage.addChild(controlsScreen)
+  stage.addChild(backButton)
+}
+
 function paused(){
   stage.addChild(pausedMessage)
   backgroundLoop.pause()
@@ -756,5 +840,7 @@ function win1(){
 function welcome(){
   stage.addChild(mainScreen)
   stage.addChild(playButton)
+  stage.addChild(githubButton)
   stage.addChild(howButton)
+  stage.addChild(controlsButton)
 }
