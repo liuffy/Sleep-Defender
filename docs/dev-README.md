@@ -91,7 +91,7 @@ In addition to the webpack entry file, there will be three scripts involved in t
 
 **Day 5: Player's lives, sound effects**
 - [X] When the player is hit by an enemy object, SP ("Sleep Points") go down
-- [ ] Add sounds for the following effects:
+- [X] Add sounds for the following effects:
   * Firing sound 
   * Background music - instrumental version of Rock-a-bye Baby? :full_moon_with_face:
 	* Missile hitting enemy
@@ -100,7 +100,7 @@ In addition to the webpack entry file, there will be three scripts involved in t
 **Day 6: Polishing the game and gaming experience**
 - [X] Replace basic sprites with more beautiful sprites
 - [ ] Add `restart` and `help` button (which opens the Instructional modal)
-- [ ] Instructional screen at start 
+- [X] Instructional screen at start 
   - [ ] `?` button re-displays the Instructions modal 
  	- [ ] `Help` button pauses the game 
 	- [ ] `Restart` button restarts the game

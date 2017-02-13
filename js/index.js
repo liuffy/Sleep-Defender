@@ -25,7 +25,9 @@ var stage = new Container;
 Loader
   .add([
     "assets/images/play_button.gif",
+    "assets/images/back_button.png",
     "assets/images/instructions_button.png",
+    "assets/images/instructions_screen.png",
     "assets/images/enemy-1.png",
     "assets/images/flipped_pajamer.png",
     "assets/images/pajamer_sprites.json",
@@ -119,6 +121,7 @@ let abductorId;
 var pajamer,
     playButton,
     howButton, 
+    backButton,
     bed, 
     enemy, 
     state, 
@@ -130,6 +133,7 @@ var pajamer,
     sadPajamerTexture,
     flippedPajamerTexture, 
     mainScreen,
+    instructionsScreen,
     endMessage, 
     endMessage2, 
     winMessage1,
@@ -341,7 +345,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
    hpBar = new Sprite(
   Resources["assets/images/HP_bar.png"].texture
   )
- hpBar.position.set(540, 15)
+   hpBar.position.set(540, 15)
 
 
   //170 is the size of the full health bar 
@@ -377,6 +381,10 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
     mainScreen = new Sprite(
     Resources["assets/images/main-screen.png"].texture
+  );    
+
+    instructionsScreen = new Sprite(
+    Resources["assets/images/instructions_screen.png"].texture
   );
 
     playButton = new Sprite(
@@ -387,10 +395,15 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     Resources["assets/images/instructions_button.png"].texture
   );
 
+    backButton = new Sprite(
+    Resources["assets/images/back_button.png"].texture
+  );
+
 
 // Make buttons on screen clickable
     playButton.interactive = true; 
     howButton.interactive = true;
+    backButton.interactive = true;
 
     playButton
     .on('mousedown', playButtonDown)
@@ -399,19 +412,23 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     .on('touchend', playButtonUp);
 
     howButton
-    .on('mousedown', screenButtonDown)
-    // .on('mouseup', howButtonUp)
-    // .on('touchstart', screenButtonDown)
-    // .on('touchend', howButtonUp);
+    .on('mousedown', howButtonDown)
+    .on('mouseup', howButtonUp)
+    .on('touchstart', howButtonDown)
+    .on('touchend', howButtonUp);
 
-    // howButton
-    // .on('mousedown', onButtonDown)
-    // .on('mouseup', onButtonUp)
-    // .on('touchstart', onButtonDown)
-    // .on('touchend', onButtonUp);
+    backButton
+    .on('mousedown', backButtonDown)
+    .on('mouseup', backButtonUp)
+    .on('touchstart', backButtonDown)
+    .on('touchend', backButtonUp);
+
 
     playButton.position.set(320,270)
     howButton.position.set(255,320)
+    backButton.position.set(620,50)
+    backButton.scale.x = 0.6;
+    backButton.scale.y = 0.6;
 
     function playButtonDown(){
       playButton.tint = 0xd623fe;
@@ -423,9 +440,23 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
       state = play;
     }
 
-    function screenButtonDown(){
+    function howButtonDown(){
       screenButtonSound.play()
       howButton.tint = 0x007fff;
+    }
+
+    function howButtonUp(){
+      state = instructions;
+    }
+
+    function backButtonDown(){
+      backButton.tint = 0xd623fe;
+      screenButtonSound.play()
+    }
+    function backButtonUp(){
+      state = welcome
+      stage.removeChild(instructionsScreen)
+      stage.removeChild(backButton)
     }
 
 
@@ -694,6 +725,10 @@ function hitTestRectangle(sprite1, sprite2) {
   return collision;
 }
 
+function instructions(){
+  stage.addChild(instructionsScreen)
+  stage.addChild(backButton)
+}
 function paused(){
   stage.addChild(pausedMessage)
   backgroundLoop.pause()
