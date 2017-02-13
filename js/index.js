@@ -24,6 +24,8 @@ var stage = new Container;
 
 Loader
   .add([
+    "assets/images/play_button.gif",
+    "assets/images/instructions_button.png",
     "assets/images/enemy-1.png",
     "assets/images/flipped_pajamer.png",
     "assets/images/pajamer_sprites.json",
@@ -41,6 +43,8 @@ Loader
     "assets/sounds/fire.wav",
     "assets/sounds/pop.mp3",
     "assets/sounds/lullaby.wav",
+    "assets/sounds/instructions.mp3",
+    "assets/sounds/start.wav",
     "assets/sounds/backgroundLoop.wav",
     "assets/sounds/squish.wav"
     ])
@@ -112,7 +116,9 @@ function randomInt(min, max) {
 
 let specificEnemy;
 let abductorId;
-var pajamer, 
+var pajamer,
+    playButton,
+    howButton, 
     bed, 
     enemy, 
     state, 
@@ -136,175 +142,12 @@ var pajamer,
 let squishSound;
 
 var backgroundLoop = new Howl({src:['assets/sounds/backgroundLoop.wav'], volume: 0.16, loop: true});
-var lullabyLoop = new Howl({src:['assets/sounds/lullaby.wav'], volume: 0.1, loop: true});
+var lullabyLoop = new Howl({src:['assets/sounds/lullaby.wav'], volume: 0.08, loop: true});
 var fireSound = new Howl({src:['assets/sounds/fire.wav'], loop: false});
+var startSound = new Howl({src:['assets/sounds/start.wav'], loop: false});
+var screenButtonSound = new Howl({src:['assets/sounds/instructions.mp3'], loop: false});
 
 
-function setup() {
-
-    mainScreen = new Sprite(
-    Resources["assets/images/main-screen.png"].texture
-  );
-
-    mainScreen.visible = true;
-  stage.addChild(mainScreen)
-
-  console.log(stage.children)
-  state = welcome;
-
-// Setup for Sounds
-
-// Only play once loaded 
-
-if (state === play) {
-
-
-backgroundLoop.once('load', function(){
-backgroundLoop.play();
-});
-
-
-var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
-
- console.log("All files loaded!");
-  //Create the `cat` sprite from the texture
-
-
-  pajamer = new Sprite(
-    id["pajamer_sprite.png"]
-  );
-  happyPajamerTexture = Texture.fromImage("assets/images/pajamer_sprite.png")
-  sadPajamerTexture =  Texture.fromImage("assets/images/sad_pajamer.png")
-  var bedroom = new Sprite(
-    Resources["assets/images/bedroom_image.png"].texture
-  );
-
-  flippedPajamerTexture = Texture.fromImage("assets/images/flipped_pajamer.png")  
-
-  bed = new Sprite(
-    Resources["assets/images/bed.png"].texture
-  ); 
-
-  endMessage = new Sprite(
-    Resources["assets/images/game_over.png"].texture
-  );
-
-  endMessage2 = new Sprite(
-    Resources["assets/images/game_over2.png"].texture
-  );  
-
-  winMessage1 = new Sprite(
-    Resources["assets/images/win1.png"].texture
-  );
-
-  pausedMessage = new Sprite(
-    Resources["assets/images/paused.png"].texture
-  );
-
-   zZz = new Sprite(
-  Resources["assets/images/zzz.png"].texture
-  );
-
-
-  pausedMessage.position.set(240, 150)
-
-  endMessage.scale.x = 0.5;
-  endMessage.scale.y = 0.5;
-  endMessage.position.set(180,10);
-
-  endMessage2.scale.x = 0.5;
-  endMessage2.scale.y = 0.5;
-  endMessage2.position.set(180,10);
-
-
-
-  pajamer.position.set(150,350)
-  bed.position.set(405,383)
-
-  bed.scale.x = 1.2;
-  bed.scale.y = 1.2;
-
-  pajamer.vx = 0;
-  pajamer.vy = 0; 
-
-
-  bed.vx = 0;
-  bed.vy = 0;
-
-  stage.addChild(bedroom);
-  stage.addChild(pajamer);
-  stage.addChild(bed);
-
-
- // HEALTH
-
-
- hpBar = new Sprite(
-  Resources["assets/images/HP_bar.png"].texture
-  )
- hpBar.position.set(540, 15)
-
-  stage.addChild(hpBar);
-
-  //170 is the size of the full health bar 
-  outerBar = new PIXI.Graphics();
-  outerBar.beginFill(0xFF0000);
-  outerBar.drawRect(0, 0, 1, 7);
-  outerBar.endFill();
-  outerBar.position.set(227,10)
-  hpBar.addChild(outerBar);
-  hpBar.outer = outerBar;
-
-  // ENEMIES 
-
-
-  //Make the Enemies
-  var numOfEnemies = randomInt(7,9),
-      spacing = 30,
-      xOffset = 150,
-      direction = 1.7;
-  //An array to store all the enemies
-  enemies = [];
-
-
-    var ENEMY_OPTIONS = [
-            Resources["assets/images/enemy-1.png"], 
-           Resources["assets/images/enemy-2.png"],
-           Resources["assets/images/enemy-3.png"]
-           ]
-
-  for (var i = 0; i < numOfEnemies; i++) {
-    //Make an enemy
-    enemy = new Sprite(ENEMY_OPTIONS[randomInt(0,2)].texture); 
-
-    //Space each enemy horizontally according to the `spacing` value.
-    //`xOffset` determines the point from the left of the screen
-    //at which the first enemy should be added
-    var x = spacing * i + xOffset;
-    var y = randomInt(0, (stage.height - enemy.height)/6);
-
-    enemy.x = x;
-    enemy.y = y;
-
-    // Unique id 
-    enemy.id = i;
-    
-    enemy.vy = randomInt(1,2) * direction;
-    enemy.vx = randomInt(1,2);
-    //Reverse the direction for the next enemy
-    direction *= -1;
-
-    //Push the enemy into the `Enemies` array
-    enemies.push(enemy);
-    //Add the enemy to the `stage`
-    stage.addChild(enemy);
-  }
-
-
-    var velocityX = 0,
-    maximumVelocityX = 8,
-    accelerationX = 2,
-    frictionX = 0.9;
 
   //KEYBOARD COMMANDS
   var left = keyboard(37),
@@ -379,9 +222,221 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     if (!up.isDown && pajamer.vx === 0) {
       pajamer.vy = 0;
     }
-  };
-  state = play;
   }
+
+function setup() {
+
+    // ENEMIES 
+
+
+  //Make the Enemies
+  var numOfEnemies = randomInt(7,9),
+      spacing = 30,
+      xOffset = 150,
+      direction = 1.7;
+  //An array to store all the enemies
+  enemies = [];
+
+
+    var ENEMY_OPTIONS = [
+            Resources["assets/images/enemy-1.png"], 
+           Resources["assets/images/enemy-2.png"],
+           Resources["assets/images/enemy-3.png"]
+           ]
+
+  for (var i = 0; i < numOfEnemies; i++) {
+    //Make an enemy
+    enemy = new Sprite(ENEMY_OPTIONS[randomInt(0,2)].texture); 
+
+    //Space each enemy horizontally according to the `spacing` value.
+    //`xOffset` determines the point from the left of the screen
+    //at which the first enemy should be added
+    var x = spacing * i + xOffset;
+    var y = randomInt(0, (stage.height - enemy.height)/6);
+
+    enemy.x = x;
+    enemy.y = y;
+
+    // Unique id 
+    enemy.id = i;
+    
+    enemy.vy = randomInt(1,2) * direction;
+    enemy.vx = randomInt(1,2);
+    //Reverse the direction for the next enemy
+    direction *= -1;
+
+    //Push the enemy into the `Enemies` array
+    enemies.push(enemy);
+    //Add the enemy to the `stage`
+  }
+
+var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
+
+  //Create the `cat` sprite from the texture
+
+
+  pajamer = new Sprite(
+    id["pajamer_sprite.png"]
+  );
+  happyPajamerTexture = Texture.fromImage("assets/images/pajamer_sprite.png")
+  sadPajamerTexture =  Texture.fromImage("assets/images/sad_pajamer.png")
+  var bedroom = new Sprite(
+    Resources["assets/images/bedroom_image.png"].texture
+  );
+
+  flippedPajamerTexture = Texture.fromImage("assets/images/flipped_pajamer.png")  
+
+  bed = new Sprite(
+    Resources["assets/images/bed.png"].texture
+  ); 
+
+  endMessage = new Sprite(
+    Resources["assets/images/game_over.png"].texture
+  );
+
+  endMessage2 = new Sprite(
+    Resources["assets/images/game_over2.png"].texture
+  );  
+
+  winMessage1 = new Sprite(
+    Resources["assets/images/win1.png"].texture
+  );
+
+  pausedMessage = new Sprite(
+    Resources["assets/images/paused.png"].texture
+  );
+
+   zZz = new Sprite(
+  Resources["assets/images/zzz.png"].texture
+  );
+
+
+
+
+  pausedMessage.position.set(240, 150)
+
+  endMessage.scale.x = 0.5;
+  endMessage.scale.y = 0.5;
+  endMessage.position.set(180,10);
+
+  endMessage2.scale.x = 0.5;
+  endMessage2.scale.y = 0.5;
+  endMessage2.position.set(180,10);
+
+
+
+  pajamer.position.set(150,360)
+  bed.position.set(405,383)
+
+  bed.scale.x = 1.2;
+  bed.scale.y = 1.2;
+
+  pajamer.vx = 0;
+  pajamer.vy = 0; 
+
+
+  bed.vx = 0;
+  bed.vy = 0;
+
+   hpBar = new Sprite(
+  Resources["assets/images/HP_bar.png"].texture
+  )
+ hpBar.position.set(540, 15)
+
+
+  //170 is the size of the full health bar 
+  outerBar = new PIXI.Graphics();
+  outerBar.beginFill(0xFF0000);
+  outerBar.drawRect(0, 0, 1, 7);
+  outerBar.endFill();
+  outerBar.position.set(227,10)
+  hpBar.outer = outerBar;
+
+
+
+
+  stage.addChild(bedroom);
+  stage.addChild(pajamer);
+  stage.addChild(bed);
+
+
+ // HEALTH
+
+  stage.addChild(hpBar);
+  hpBar.addChild(outerBar);
+
+  enemies.forEach(function(enemy){
+        stage.addChild(enemy);
+  })
+
+
+ console.log("All files loaded!");
+  // lullabyLoop.once('load', function(){
+  //   lullabyLoop.play();
+  // });
+
+    mainScreen = new Sprite(
+    Resources["assets/images/main-screen.png"].texture
+  );
+
+    playButton = new Sprite(
+    Resources["assets/images/play_button.gif"].texture
+  );
+
+    howButton = new Sprite(
+    Resources["assets/images/instructions_button.png"].texture
+  );
+
+
+// Make buttons on screen clickable
+    playButton.interactive = true; 
+    howButton.interactive = true;
+
+    playButton
+    .on('mousedown', playButtonDown)
+    .on('mouseup', playButtonUp)
+    .on('touchstart', playButtonDown)
+    .on('touchend', playButtonUp);
+
+    howButton
+    .on('mousedown', screenButtonDown)
+    // .on('mouseup', howButtonUp)
+    // .on('touchstart', screenButtonDown)
+    // .on('touchend', howButtonUp);
+
+    // howButton
+    // .on('mousedown', onButtonDown)
+    // .on('mouseup', onButtonUp)
+    // .on('touchstart', onButtonDown)
+    // .on('touchend', onButtonUp);
+
+    playButton.position.set(320,270)
+    howButton.position.set(255,320)
+
+    function playButtonDown(){
+      playButton.tint = 0xd623fe;
+      startSound.play()
+    }
+    
+    function playButtonUp(){
+      backgroundLoop.play();
+      state = play;
+    }
+
+    function screenButtonDown(){
+      screenButtonSound.play()
+      howButton.tint = 0x007fff;
+    }
+
+
+  state = welcome;
+
+
+// Setup for Sounds
+
+// Only play once loaded 
+
+
   gameLoop();
 
 }
@@ -439,7 +494,11 @@ function gameLoop() {
 
 
  function play(){
+
   
+  stage.removeChild(mainScreen)
+  stage.removeChild(playButton)
+  stage.removeChild(howButton)
 
    if (enemies.length === 0) {
     state = win1;
@@ -455,10 +514,10 @@ function gameLoop() {
   }
 
   if (stage.children.indexOf(zZz) !== 0){
-    zZz.scale.x = 0.5;
-    zZz.scale.y = 0.5;
+    zZz.scale.x = 0.60;
+    zZz.scale.y = 0.60;
     zZz.vx = 0;
-    zZz.vy = -8;
+    zZz.vy = -7;
 
     zZz.x += zZz.vx;
     zZz.y += zZz.vy;
@@ -661,5 +720,6 @@ function win1(){
 
 function welcome(){
   stage.addChild(mainScreen)
-    console.log(stage.children)
+  stage.addChild(playButton)
+  stage.addChild(howButton)
 }
