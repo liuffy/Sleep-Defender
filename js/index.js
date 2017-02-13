@@ -85,9 +85,10 @@ function soundToggle(){
   if (muteButton.texture === onTexture){
     backgroundLoop.pause()
     fireSound.mute()
+    muteButton.alpha = 0.3
     muteButton.texture = offTexture
-
   } else if (muteButton.texture === offTexture){
+    muteButton.alpha = 1.0
     muteButton.texture = onTexture
     backgroundLoop.play()
     fireSound.play()
@@ -510,13 +511,17 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     // }
 
 
+    function soundDim(){
+          muteButton.alpha = 0.3
+    }
+
     helpButton
     .on('mouseup', helpModalShow)
 
     muteButton
+    .on('mousedown', soundDim)
     .on('mouseup', soundToggle)
-    .on('mouseover', brightenButton)
-    .on('mouseout', dimButtonUp)
+    // .on('mouseout', dimButtonUp)
 
     linkedinButton
     .on('mouseover', brightenButton)
@@ -625,6 +630,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
       screenButtonSound.play()
       controlsButton.tint = 0x717271;
     }
+
 
     function controlsButtonUp(){
       state = controls;
@@ -827,8 +833,6 @@ if (enemyHit){
     // }
   enemies.forEach(function(enemy){
     if (enemy.id === deadId){
-      // let popSound = new Howl({src:['assets/sounds/pop.mp3']});
-      // popSound.play();
       deadEnemy = enemy;
     stage.removeChild(deadEnemy)
     }
