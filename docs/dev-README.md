@@ -19,9 +19,7 @@ With this game, users will be able to:
 - [ ] Start, pause, and reset the game.
 - [ ] Move their character up, down, left, and right.
 - [ ] Fire projectiles at enemy objects to destroy them.
-- [ ] Hear sound effects for:
-1. The firing of projectiles
-2. Being hit by an enemy object and hitting an enemy object
+- [ ] Hear sound effects for the firing of projectiles
 
 In addition, this project will include:
 
@@ -101,10 +99,10 @@ In addition to the webpack entry file, there will be three scripts involved in t
 - [X] Replace basic sprites with more beautiful sprites
 - [ ] Add `restart` and `help` button (which opens the Instructional modal)
 - [X] Instructional screen at start 
-  - [ ] `?` button re-displays the Instructions modal 
- 	- [ ] `Help` button pauses the game 
+  - [X] `Help` button re-displays the Instructions modal 
+ 	- [X] `Help` button pauses the game 
 	- [ ] `Restart` button restarts the game
-	- [ ] Add `mute` button 
+	- [X] Add `mute` button 
 
 
 ### Bonus features :sparkles:

@@ -27,6 +27,9 @@ Loader
     "assets/images/play_button.gif",
     "assets/images/back_button.png",
     "assets/images/help_button.png",
+    "assets/images/continue-button.png",
+    "assets/images/exit-button.png",
+    "assets/images/retry-button.png",
     "assets/images/github_button.png",
     "assets/images/linkedin_button.png",
     "assets/images/controls_button.gif",
@@ -148,6 +151,9 @@ var pajamer,
     playButton,
     howButton, 
     backButton,
+    exitButton,
+    continueButton,
+    retryButton,
     muteButton,
     helpButton,
     controlsButton,
@@ -184,7 +190,7 @@ var backgroundLoop = new Howl({src:['assets/sounds/backgroundLoop.wav'], volume:
 var lullabyLoop = new Howl({src:['assets/sounds/lullaby.wav'], volume: 0.08, loop: true});
 var fireSound = new Howl({src:['assets/sounds/fire.wav'], loop: false});
 var startSound = new Howl({src:['assets/sounds/start.wav'], loop: false});
-var screenButtonSound = new Howl({src:['assets/sounds/instructions.mp3'], loop: false});
+var screenButtonSound = new Howl({src:['assets/sounds/instructions.mp3'], volume: 0.3, loop: false});
 
 
 
@@ -277,7 +283,10 @@ var screenButtonSound = new Howl({src:['assets/sounds/instructions.mp3'], loop: 
 
 function setup() {
 
-    // ENEMIES 
+  PIXI.utils.textureCache = {}; 
+  PIXI.utils.baseTextureCache = {};
+
+
 
 
   //Make the Enemies
@@ -313,6 +322,7 @@ function setup() {
     
     enemy.vy = randomInt(1,2) * direction;
     enemy.vx = randomInt(1,2);
+
     //Reverse the direction for the next enemy
     direction *= -1;
 
@@ -320,6 +330,7 @@ function setup() {
     enemies.push(enemy);
     //Add the enemy to the `stage`
   }
+
 
 var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
@@ -363,11 +374,31 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
     controlsModal = new Sprite(
       Resources["assets/images/controls_modal.png"].texture
+  );    
+
+    continueButton = new Sprite(
+      Resources["assets/images/continue-button.png"].texture
+  );
+
+    exitButton = new Sprite(
+      Resources["assets/images/exit-button.png"].texture
+  );
+    retryButton = new Sprite(
+      Resources["assets/images/retry-button.png"].texture
   );
 
 
-
   pausedMessage.position.set(240, 150)
+  continueButton.position.set(410, 230)
+
+  retryButton.scale.x = 0.75;
+  retryButton.scale.y = 0.75;  
+
+  exitButton.scale.x = 0.75;
+  exitButton.scale.y = 0.75;
+
+  continueButton.scale.x = 0.75;
+  continueButton.scale.y = 0.75;
 
   controlsModal.scale.x = 0.8;
   controlsModal.scale.y = 0.8;
@@ -497,26 +528,46 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     linkedinButton.interactive = true;
     muteButton.interactive = true;
     helpButton.interactive = true;
-
-    // function muteButtonClick(){
-    //   if (muteButton.texture === onTexture){
-    //     backgroundLoop.pause()
-    //     fireSound.pause()
-    //     muteButton.texture = offTexture
-    //   } else {
-    //     backgroundLoop.play()
-    //     fireSound.play()
-    //     muteButton.texture = onTexture
-    //   }
-    // }
-
+    exitButton.interactive = true;
+    continueButton.interactive = true;
+    retryButton.interactive = true;
 
     function soundDim(){
-          muteButton.alpha = 0.3
+      muteButton.alpha = 0.3
     }
 
+
+    function exitButtonDown(){
+      exitButton.tint = 0x17e89b;
+      screenButtonSound.play()
+    }
+
+    function exitButtonUp(){
+      exitButton.tint = 0xFFFFFF;
+      // stage = new Container;
+      PIXI.utils.textureCache = {}; 
+      PIXI.utils.baseTextureCache = {};
+      setup()
+     // stage = new Container;
+      // renderer.destroy()
+      // renderer = autoDetectRenderer(800, 440, {antialias: true, transparent: false, resolution: 1});
+      state = welcome
+    }
+
+    exitButton
+    .on('mousedown', exitButtonDown)
+    .on('mouseover', brightenButton)
+    .on('mouseout', dimButtonUp)
+    .on('mouseupoutside', dimButtonUp)
+    .on('mouseup', exitButtonUp)
+    .on('touchstart', exitButtonDown)
+    .on('touchend', exitButtonUp)
+    .on('touchendoutside', dimButtonUp);
+
     helpButton
+    .on('mouseover', brightenButton)
     .on('mouseup', helpModalShow)
+    .on('mouseout', dimButtonUp)
 
     muteButton
     .on('mousedown', soundDim)
@@ -596,6 +647,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     linkedinButton.scale.y = 0.3;
 
     playButton.alpha = 0.8;
+    helpButton.alpha = 0.8;
     linkedinButton.alpha = 0.8;
     githubButton.alpha = 0.8;
     howButton.alpha = 0.8;
@@ -726,7 +778,6 @@ function gameLoop() {
 
  function play(){
 
-  
   stage.removeChild(mainScreen)
   stage.removeChild(playButton)
   stage.removeChild(howButton)
@@ -765,6 +816,7 @@ function gameLoop() {
 // ENEMY CODE
     var chasers = [];
     enemies.forEach(function(enemy) {
+
       if ((distance < 200 && enemy !== specificEnemy && (stage.children.indexOf(enemy))% 2 === 0  ))  {
         chasers.push(enemy)
 
@@ -947,24 +999,45 @@ function controlsPaused(){
 }
 
 function end1() {
-  // stage.visible = false;
+
+  backgroundLoop.stop()
+  stage.removeChild(muteButton)
+  stage.removeChild(helpButton)
+  exitButton.position.set(280, 180)
+  retryButton.position.set(430, 180)
   stage.addChild(endMessage)
+  stage.addChild(exitButton)
+  stage.addChild(retryButton)
   backgroundLoop.pause()
 }
 
 function end2() {
-  // stage.visible = false;
+  backgroundLoop.stop()
+  stage.removeChild(muteButton)
+  stage.removeChild(helpButton)
+    exitButton.position.set(280, 180)
+    retryButton.position.set(430, 180)
   stage.addChild(endMessage2)
+  stage.addChild(exitButton)
+  stage.addChild(retryButton)
   backgroundLoop.pause()
 }
 
 
 function win1(){
+  backgroundLoop.stop()
   stage.addChild(winMessage1)
-    backgroundLoop.pause()
+  exitButton.position.set(270, 230)
+  winMessage1.addChild(continueButton)
+  winMessage1.addChild(exitButton)
+  backgroundLoop.pause()
 }
 
 function welcome(){
+  // setup()
+  stage.removeChild(endMessage2)
+  stage.removeChild(endMessage)
+
   stage.addChild(mainScreen)
   stage.addChild(playButton)
   stage.addChild(githubButton)
