@@ -62,7 +62,7 @@ Loader
     "assets/sounds/squish.wav"
     ])
   .on("progress", loadProgressHandler)
-  .load(setup);
+  .load(makeSprites);
 
 function loadProgressHandler(loader, resource) {
   console.log("loading:"  + resource.url);
@@ -190,9 +190,14 @@ var backgroundLoop = new Howl({src:['assets/sounds/backgroundLoop.wav'], volume:
 var lullabyLoop = new Howl({src:['assets/sounds/lullaby.wav'], volume: 0.08, loop: true});
 var fireSound = new Howl({src:['assets/sounds/fire.wav'], loop: false});
 var startSound = new Howl({src:['assets/sounds/start.wav'], loop: false});
-var screenButtonSound = new Howl({src:['assets/sounds/instructions.mp3'], volume: 0.3, loop: false});
+var screenButtonSound = new Howl({src:['assets/sounds/instructions.mp3'], volume: 0.2, loop: false});
 
 
+function restart(){
+  stage.destroy()
+  stage = new Container
+  state = welcome
+}
 
   //KEYBOARD COMMANDS
   var left = keyboard(37),
@@ -223,7 +228,7 @@ var screenButtonSound = new Howl({src:['assets/sounds/instructions.mp3'], volume
  zZz.position.set(pajamer.x + 25, pajamer.y)
   stage.addChild(zZz);
 
-    if (muteButton.texture === onTexture){
+    if (muteButton.texture === onTexture && state !== end1 && state !== end2 && state !== win1){
       fireSound.play();
     }
   }
@@ -283,12 +288,21 @@ var screenButtonSound = new Howl({src:['assets/sounds/instructions.mp3'], volume
 
 function setup() {
 
+  stage = new Container
+  console.log("All files loaded!");
+  console.log(stage.children)
+
+  stage.children = []
+
   PIXI.utils.textureCache = {}; 
   PIXI.utils.baseTextureCache = {};
 
+  makeSprites()
+
+}
 
 
-
+function makeSprites(){
   //Make the Enemies
   var numOfEnemies = randomInt(7,9),
       spacing = 30,
@@ -331,7 +345,7 @@ function setup() {
     //Add the enemy to the `stage`
   }
 
-
+console.log(stage.children)
 var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
   //Create the `cat` sprite from the texture
@@ -478,7 +492,6 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
   })
 
 
- console.log("All files loaded!");
   // lullabyLoop.once('load', function(){
   //   lullabyLoop.play();
   // });
@@ -547,11 +560,11 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
       // stage = new Container;
       PIXI.utils.textureCache = {}; 
       PIXI.utils.baseTextureCache = {};
-      setup()
      // stage = new Container;
       // renderer.destroy()
       // renderer = autoDetectRenderer(800, 440, {antialias: true, transparent: false, resolution: 1});
-      state = welcome
+      // document.location.href = ""
+      setup()
     }
 
     exitButton
@@ -777,7 +790,6 @@ function gameLoop() {
 
 
  function play(){
-
   stage.removeChild(mainScreen)
   stage.removeChild(playButton)
   stage.removeChild(howButton)
@@ -1008,10 +1020,10 @@ function end1() {
   stage.addChild(endMessage)
   stage.addChild(exitButton)
   stage.addChild(retryButton)
-  backgroundLoop.pause()
 }
 
 function end2() {
+
   backgroundLoop.stop()
   stage.removeChild(muteButton)
   stage.removeChild(helpButton)
@@ -1020,21 +1032,19 @@ function end2() {
   stage.addChild(endMessage2)
   stage.addChild(exitButton)
   stage.addChild(retryButton)
-  backgroundLoop.pause()
 }
 
 
 function win1(){
+
   backgroundLoop.stop()
   stage.addChild(winMessage1)
   exitButton.position.set(270, 230)
   winMessage1.addChild(continueButton)
   winMessage1.addChild(exitButton)
-  backgroundLoop.pause()
 }
 
 function welcome(){
-  // setup()
   stage.removeChild(endMessage2)
   stage.removeChild(endMessage)
 
