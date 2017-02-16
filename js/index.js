@@ -2,6 +2,31 @@ const PIXI = require('pixi.js');
 const Game = require('./game.js');
 import {Howl, Howler} from 'howler'; 
 
+var soundOn = true;
+function soundToggle(){
+  soundOn = true
+  if (muteButton.texture === onTexture){
+    soundOn = false;
+    screenButtonSound.mute()
+    startSound.mute()
+    backgroundLoop.pause()
+    fireSound.mute()
+    muteButton.alpha = 0.3
+    muteButton.texture = offTexture
+  } else if (muteButton.texture === offTexture){
+    soundOn = true
+    muteButton.alpha = 1.0
+    muteButton.texture = onTexture
+
+    if (state === play && muteButton.texture === onTexture){
+      console.log('ho hum')
+    backgroundLoop.play()
+    fireSound.play()
+  }
+      
+    }
+}
+
 
 // Some aliases to save on typing 
   var Container = PIXI.Container,
@@ -88,19 +113,7 @@ function pauseGame() {
   }
 }
 
-function soundToggle(){
-  if (muteButton.texture === onTexture){
-    backgroundLoop.pause()
-    fireSound.mute()
-    muteButton.alpha = 0.3
-    muteButton.texture = offTexture
-  } else if (muteButton.texture === offTexture){
-    muteButton.alpha = 1.0
-    muteButton.texture = onTexture
-    backgroundLoop.play()
-    fireSound.play()
-  }
-}
+
 
 // Contain sprites within walls 
 
@@ -195,13 +208,6 @@ var lullabyLoop = new Howl({src:['assets/sounds/lullaby.wav'], volume: 0.08, loo
 var fireSound = new Howl({src:['assets/sounds/fire.wav'], loop: false});
 var startSound = new Howl({src:['assets/sounds/start.wav'], loop: false});
 var screenButtonSound = new Howl({src:['assets/sounds/instructions.mp3'], volume: 0.2, loop: false});
-
-
-function restart(){
-  stage.destroy()
-  stage = new Container
-  state = welcome
-}
 
 
 function keyboard(keyCode) {
@@ -545,10 +551,16 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
   hpBar.outer = outerBar;
 
 
-
+  if (soundOn === false) {
     muteButton = new Sprite(
-      Resources["assets/images/music-on.png"].texture
-  );    
+       Resources["assets/images/music-off.png"].texture)
+      muteButton.alpha = 0.3
+  } else {
+     muteButton = new Sprite(
+       Resources["assets/images/music-on.png"].texture)
+  }
+      
+
 
     helpButton = new Sprite(
       Resources["assets/images/help_button.png"].texture
@@ -567,8 +579,8 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     stage.addChild(bedroom);
     stage.addChild(pajamer);
     stage.addChild(bed);
-    stage.addChild(muteButton);
     stage.addChild(helpButton);
+    stage.addChild(muteButton);
 
 
  // HEALTH
@@ -645,11 +657,20 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
     function exitButtonUp(){
       exitButton.tint = 0xFFFFFF;
+
+      if (soundOn === true) {
+        screenButtonSound.play()
+      }
       setup()
     }
 
      function retryButtonUp(){
       playButton.tint = 0xFFFFFF;
+
+      if (muteButton.texture === onTexture){
+        backgroundLoop.play();
+      }
+
       setup()
       state = play;
     }
@@ -774,22 +795,33 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
     function playButtonDown(){
       playButton.tint = 0xd623fe;
-      startSound.play()
+
+      if (muteButton.texture === onTexture){
+        startSound.play()
+      }
     }
     
     function playButtonUp(){
       playButton.tint = 0xFFFFFF;
+
+      if (soundOn === true) {
+
       backgroundLoop.play();
+      }
       state = play;
     }
 
     function howButtonDown(){
-      screenButtonSound.play()
+      if (soundOn === true){
+        screenButtonSound.play()
+      }
       howButton.tint = 0x007fff;
     }
 
     function controlsButtonDown(){
-      screenButtonSound.play()
+       if (soundOn === true){
+        screenButtonSound.play()
+      }
       controlsButton.tint = 0x717271;
     }
 
@@ -807,7 +839,9 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
     function backButtonDown(){
       backButton.tint = 0xd623fe;
-      screenButtonSound.play()
+     if (soundOn === true){
+        screenButtonSound.play()
+      }
     }
 
     function backButtonUp(){
@@ -954,9 +988,7 @@ if (enemyHit){
   stage.removeChild(zZz);
   zZz.x = -20;
   zZz.y = -20;
-    //  if(enemies.indexOf(specificEnemy) === -1){
-    //     bed.vy = 1
-    // }
+
   enemies.forEach(function(enemy){
     if (enemy.id === deadId){
       deadEnemy = enemy;
@@ -966,9 +998,6 @@ if (enemyHit){
 }
 
 if (pajamerHit){
-    // pajamer.texture = Resources["assets/images/sad_pajamer.png"]
-    // translucent when hit
-    // let squishSound = new Howl({src:['assets/sounds/squish.wav']});
     pajamer.texture = sadPajamerTexture;
     pajamer.alpha = 0.7;
     pajamer.tint = 0xFF9999;
@@ -1107,7 +1136,6 @@ function win1(){
 }
 
 function welcome(){
-
   stage.removeChild(endMessage2)
   stage.removeChild(endMessage)
   stage.addChild(mainScreen)
@@ -1116,4 +1144,5 @@ function welcome(){
   stage.addChild(linkedinButton)
   stage.addChild(howButton)
   stage.addChild(controlsButton)
+  stage.addChild(muteButton);
 }
