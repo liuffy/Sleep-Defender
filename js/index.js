@@ -661,6 +661,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     }
 
     function exitButtonUp(){
+      level = 1
       exitButton.tint = 0xFFFFFF;
 
       if (soundOn === true) {
@@ -695,11 +696,11 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     .on('mousedown', playButtonDown)
     .on('mouseover', brightenButton)
     .on('mouseout', continueButtonUp)
-    .on('mouseupoutside', continueButtonUp)
-    .on('mouseup', playButtonUp)
+    .on('mouseupoutside', dimButtonUp)
+    .on('mouseup', continueButtonUp)
     .on('touchstart', playButtonDown)
     .on('touchend', continueButtonUp)
-    .on('touchendoutside', continueButtonUp);
+    .on('touchendoutside', dimButtonUp);
 
     retryButton
     .on('mousedown', playButtonDown)
