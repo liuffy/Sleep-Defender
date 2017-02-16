@@ -1,8 +1,7 @@
 const PIXI = require('pixi.js');
 const Game = require('./game.js');
 import {Howl, Howler} from 'howler'; 
-// const Pajamer = require ('./pajamer.js');
-// const Enemy = require ('./enemies.js');
+
 
 // Some aliases to save on typing 
   var Container = PIXI.Container,
@@ -14,7 +13,6 @@ import {Howl, Howler} from 'howler';
       Sprite = PIXI.Sprite;
 
 var renderer = autoDetectRenderer(800, 440, {antialias: true, transparent: false, resolution: 1});
-
 
 //Add the canvas to the HTML document
 document.body.appendChild(renderer.view);
@@ -62,7 +60,7 @@ Loader
     "assets/sounds/squish.wav"
     ])
   .on("progress", loadProgressHandler)
-  .load(makeSprites);
+  .load(setup);
 
 function loadProgressHandler(loader, resource) {
   console.log("loading:"  + resource.url);
@@ -201,9 +199,13 @@ function restart(){
 
   //KEYBOARD COMMANDS
   var left = keyboard(37),
+      leftA = keyboard(65),
       up = keyboard(38),
+      upW = keyboard(87),
       right = keyboard(39),
+      rightD = keyboard(68),
       down = keyboard(40),
+      downS = keyboard(83),
       pause = keyboard(80),
       fire = keyboard(32),
       restart = keyboard(82)
@@ -219,10 +221,6 @@ function restart(){
         // stage.removeChild(controlsModal)
                 pauseGame()
     }
-
-  restart.release = function(){
-    // setup()
-  }
 
   fire.release = function(){
  zZz.position.set(pajamer.x + 25, pajamer.y)
@@ -241,6 +239,11 @@ function restart(){
   left.press = function() {
     pajamer.vx = -5;
     pajamer.vy = 0;
+  };  
+
+  leftA.press = function() {
+    pajamer.vx = -5;
+    pajamer.vy = 0;
   };
 
   //Left arrow key `release` method
@@ -251,58 +254,102 @@ function restart(){
     if (!right.isDown && pajamer.vy === 0) {
       pajamer.vx = 0;
     }
-  };
+  }
+
+  leftA.release = function() {
+    //If the left arrow has been released, and the right arrow isn't down,
+    //and the pajamer isn't moving vertically:
+    //Stop the pajamer
+    if (!right.isDown && pajamer.vy === 0) {
+      pajamer.vx = 0;
+    }
+  }
 
   //Up
-  up.press = function() {
+up.press = function() {
     pajamer.vy = -5;
     pajamer.vx = 0;
   };
-  up.release = function() {
+
+upW.press = function() {
+  pajamer.vy = -5;
+  pajamer.vx = 0;
+};
+
+up.release = function() {
+    if (!down.isDown && pajamer.vx === 0) {
+      pajamer.vy = 0;
+    }
+  };
+
+  upW.release = function() {
     if (!down.isDown && pajamer.vx === 0) {
       pajamer.vy = 0;
     }
   };
 
   //Right
-  right.press = function() {
+right.press = function() {
     pajamer.vx = 5;
     pajamer.vy = 0;
   };
-  right.release = function() {
+
+rightD.press = function() {
+  pajamer.vx = 5;
+  pajamer.vy = 0;
+};
+
+right.release = function() {
+    if (!left.isDown && pajamer.vy === 0) {
+      pajamer.vx = 0;
+    }
+  };
+
+rightD.release = function() {
     if (!left.isDown && pajamer.vy === 0) {
       pajamer.vx = 0;
     }
   };
 
   //Down
-  down.press = function() {
+down.press = function() {
     pajamer.vy = 5;
     pajamer.vx = 0;
   };
-  down.release = function() {
+
+  downS.press = function() {
+    pajamer.vy = 5;
+    pajamer.vx = 0;
+  };
+ down.release = function() {
+    if (!up.isDown && pajamer.vx === 0) {
+      pajamer.vy = 0;
+    }
+  } 
+
+  downS.release = function() {
     if (!up.isDown && pajamer.vx === 0) {
       pajamer.vy = 0;
     }
   }
 
+  function clearAllIntervals() {
+    for (var i = 1; i < 99999; i++){
+        window.clearInterval(i);
+    }
+}
+
+
 function setup() {
-
-  stage = new Container
-  console.log("All files loaded!");
-  console.log(stage.children)
-
   stage.children = []
-
-  PIXI.utils.textureCache = {}; 
-  PIXI.utils.baseTextureCache = {};
+  console.log("All files loaded!");
 
   makeSprites()
-
 }
 
 
 function makeSprites(){
+
   //Make the Enemies
   var numOfEnemies = randomInt(7,9),
       spacing = 30,
@@ -472,8 +519,8 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     helpButton.scale.x = 0.6;
     helpButton.scale.y = 0.6;
 
-    muteButton.position.set(730, 50)
-    helpButton.position.set(720, 90)
+    muteButton.position.set(730, 50);
+    helpButton.position.set(720, 90);
 
     stage.addChild(bedroom);
     stage.addChild(pajamer);
@@ -552,19 +599,17 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
     function exitButtonDown(){
       exitButton.tint = 0x17e89b;
-      screenButtonSound.play()
     }
 
     function exitButtonUp(){
       exitButton.tint = 0xFFFFFF;
-      // stage = new Container;
       PIXI.utils.textureCache = {}; 
       PIXI.utils.baseTextureCache = {};
-     // stage = new Container;
-      // renderer.destroy()
-      // renderer = autoDetectRenderer(800, 440, {antialias: true, transparent: false, resolution: 1});
-      // document.location.href = ""
-      setup()
+      // stage = new Container;
+      document.location.href = ""
+      // stage = new Container
+      // setup()
+      // state = welcome
     }
 
     exitButton
@@ -1045,9 +1090,9 @@ function win1(){
 }
 
 function welcome(){
+
   stage.removeChild(endMessage2)
   stage.removeChild(endMessage)
-
   stage.addChild(mainScreen)
   stage.addChild(playButton)
   stage.addChild(githubButton)
