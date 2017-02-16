@@ -97,7 +97,7 @@ In addition to the webpack entry file, there will be three scripts involved in t
 
 **Day 6: Polishing the game and gaming experience**
 - [X] Replace basic sprites with more beautiful sprites
-- [ ] Add `restart` and `help` button (which opens the Instructional modal)
+- [X] Add `restart` and `help` button (which opens the Instructional modal)
 - [X] Instructional screen at start 
   - [X] `Help` button re-displays the Instructions modal 
  	- [X] `Help` button pauses the game 

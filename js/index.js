@@ -2,6 +2,10 @@ const PIXI = require('pixi.js');
 const Game = require('./game.js');
 import {Howl, Howler} from 'howler'; 
 
+
+// Volume toggle is global function so sounds can be muted any time.
+
+var level = 1;
 var soundOn = true;
 function soundToggle(){
   soundOn = true
@@ -399,7 +403,7 @@ function setup() {
 function makeSprites(){
 
   //Make the Enemies
-  var numOfEnemies = randomInt(7,9),
+  var numOfEnemies = randomInt(7 * Math.sqrt(level),9 * Math.sqrt(level)),
       spacing = 30,
       xOffset = 150,
       direction = 1.7;
@@ -429,8 +433,8 @@ function makeSprites(){
     // Unique id 
     enemy.id = i;
     
-    enemy.vy = randomInt(1,2) * direction;
-    enemy.vx = randomInt(1,2);
+    enemy.vy = randomInt(1,2) * direction * Math.sqrt(level);
+    enemy.vx = randomInt(1,2) * Math.sqrt(level);
 
     //Reverse the direction for the next enemy
     direction *= -1;
@@ -583,6 +587,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     stage.addChild(muteButton);
 
 
+
  // HEALTH
 
   stage.addChild(hpBar);
@@ -674,6 +679,27 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
       setup()
       state = play;
     }
+
+
+    function continueButtonUp(){
+      level += 1
+      setup()
+      if (muteButton.texture === onTexture){
+        backgroundLoop.play();
+      }
+      state = play
+      console.log(level)
+    }
+
+    continueButton
+    .on('mousedown', playButtonDown)
+    .on('mouseover', brightenButton)
+    .on('mouseout', continueButtonUp)
+    .on('mouseupoutside', continueButtonUp)
+    .on('mouseup', playButtonUp)
+    .on('touchstart', playButtonDown)
+    .on('touchend', continueButtonUp)
+    .on('touchendoutside', continueButtonUp);
 
     retryButton
     .on('mousedown', playButtonDown)
@@ -1127,7 +1153,7 @@ function end2() {
 
 
 function win1(){
-
+  // console.log(level)
   backgroundLoop.stop()
   stage.addChild(winMessage1)
   exitButton.position.set(270, 230)
@@ -1145,4 +1171,5 @@ function welcome(){
   stage.addChild(howButton)
   stage.addChild(controlsButton)
   stage.addChild(muteButton);
+  level = 1;
 }
