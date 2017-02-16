@@ -101,7 +101,7 @@ In addition to the webpack entry file, there will be three scripts involved in t
 - [X] Instructional screen at start 
   - [X] `Help` button re-displays the Instructions modal 
  	- [X] `Help` button pauses the game 
-	- [ ] `Restart` button restarts the game
+	- [X] `Restart` button restarts the game
 	- [X] Add `mute` button 
 
 
@@ -112,5 +112,5 @@ There are many expansion opportunities for the game, such as:
 - [ ] SIDE SCROLLING! Truly imitating its predecessor. 
 - [ ] Keeping track of points. 
 - [ ] Different enemies have different characteristics (type of movement, speed, sound effects)
-- [ ] Different levels 
+- [X] Different levels 
 

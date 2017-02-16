@@ -3,9 +3,21 @@ const Game = require('./game.js');
 import {Howl, Howler} from 'howler'; 
 
 
+// Some aliases to save on typing 
+  var Container = PIXI.Container,
+      autoDetectRenderer = PIXI.autoDetectRenderer,
+      Texture = PIXI.Texture,
+      Loader = PIXI.loader,
+      Resources = PIXI.loader.resources,
+      Text = PIXI.Text,
+      Sprite = PIXI.Sprite;
+
+
+// Start at level 1
+var level = 1;
 // Volume toggle is global function so sounds can be muted any time.
 
-var level = 1;
+
 var soundOn = true;
 function soundToggle(){
   soundOn = true
@@ -32,14 +44,6 @@ function soundToggle(){
 }
 
 
-// Some aliases to save on typing 
-  var Container = PIXI.Container,
-      autoDetectRenderer = PIXI.autoDetectRenderer,
-      Texture = PIXI.Texture,
-      Loader = PIXI.loader,
-      Resources = PIXI.loader.resources,
-      Text = PIXI.Text,
-      Sprite = PIXI.Sprite;
 
 var renderer = autoDetectRenderer(800, 440, {antialias: true, transparent: false, resolution: 1});
 
@@ -173,6 +177,7 @@ var pajamer,
     howButton, 
     backButton,
     exitButton,
+    levelMessage,
     continueButton,
     retryButton,
     muteButton,
@@ -402,6 +407,7 @@ function setup() {
 
 function makeSprites(){
 
+
   //Make the Enemies
   var numOfEnemies = randomInt(7 * Math.sqrt(level),9 * Math.sqrt(level)),
       spacing = 30,
@@ -588,6 +594,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
 
 
+
  // HEALTH
 
   stage.addChild(hpBar);
@@ -635,6 +642,19 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     linkedinButton = new Sprite(
     Resources["assets/images/linkedin_button.png"].texture
   );
+
+    levelMessage = new Text(`Level ${level}`, { fontFamily: 'Ubuntu', 
+    fontSize: 24,
+    fontStyle: 'bold',
+    // Set style, size and font
+    fill: '#9fb7dd', // Set fill color to blue
+    align: 'center', // Center align the text, since it's multiline
+    stroke: '#4e4072', // Set stroke color to a dark blue-gray color
+    strokeThickness: 10, // Set stroke thickness to 20
+    lineJoin: 'round'});
+
+    levelMessage.position.set(15,10);
+
 
 
 
@@ -689,6 +709,8 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
         backgroundLoop.play();
       }
       state = play
+      stage.addChild(levelMessage)
+
       console.log(level)
     }
 
@@ -913,10 +935,13 @@ function gameLoop() {
 
 
  function play(){
+
   stage.removeChild(mainScreen)
   stage.removeChild(playButton)
   stage.removeChild(howButton)
   stage.removeChild(controlsButton)
+
+  stage.addChild(levelMessage)
 
    if (enemies.length === 0) {
     state = win1;
@@ -1171,6 +1196,7 @@ function welcome(){
   stage.addChild(linkedinButton)
   stage.addChild(howButton)
   stage.addChild(controlsButton)
-  stage.addChild(muteButton);
+  stage.addChild(muteButton)
+
   level = 1;
 }
