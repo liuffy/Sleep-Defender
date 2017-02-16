@@ -333,17 +333,14 @@ down.press = function() {
     }
   }
 
-  function clearAllIntervals() {
-    for (var i = 1; i < 99999; i++){
-        window.clearInterval(i);
-    }
-}
+ 
 
 
 function setup() {
+  stage = new Container;
+
   stage.children = []
   console.log("All files loaded!");
-
   makeSprites()
 }
 
@@ -602,14 +599,17 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     }
 
     function exitButtonUp(){
+
       exitButton.tint = 0xFFFFFF;
+
+
       PIXI.utils.textureCache = {}; 
       PIXI.utils.baseTextureCache = {};
       // stage = new Container;
-      document.location.href = ""
+      // document.location.href = ""
       // stage = new Container
-      // setup()
-      // state = welcome
+      setup()
+      state = welcome
     }
 
     exitButton
@@ -778,8 +778,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
   state = welcome;
 
-  gameLoop();
-
+  gameLoop()
 }
 
 function keyboard(keyCode) {
@@ -823,6 +822,7 @@ function keyboard(keyCode) {
 
 
 function gameLoop() {
+
   //Loop this function at 60 frames per second
   requestAnimationFrame(gameLoop);
 
@@ -1072,8 +1072,8 @@ function end2() {
   backgroundLoop.stop()
   stage.removeChild(muteButton)
   stage.removeChild(helpButton)
-    exitButton.position.set(280, 180)
-    retryButton.position.set(430, 180)
+  exitButton.position.set(280, 180)
+  retryButton.position.set(430, 180)
   stage.addChild(endMessage2)
   stage.addChild(exitButton)
   stage.addChild(retryButton)
