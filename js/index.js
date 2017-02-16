@@ -60,7 +60,13 @@ Loader
     "assets/sounds/squish.wav"
     ])
   .on("progress", loadProgressHandler)
-  .load(setup);
+  .load(init);
+
+
+function init(){
+  setup()
+  gameLoop()
+}
 
 function loadProgressHandler(loader, resource) {
   console.log("loading:"  + resource.url);
@@ -196,6 +202,45 @@ function restart(){
   stage = new Container
   state = welcome
 }
+
+
+function keyboard(keyCode) {
+  var key = {};
+  key.code = keyCode;
+  key.isDown = false;
+  key.isUp = true;
+  key.press = undefined;
+  key.release = undefined;
+  //The `downHandler`
+  key.downHandler = function(event) {
+    if (event.keyCode === key.code) {
+      if (key.isUp && key.press) key.press();
+      key.isDown = true;
+      key.isUp = false;
+    }
+    event.preventDefault();
+  };
+
+  //The `upHandler`
+  key.upHandler = function(event) {
+    if (event.keyCode === key.code) {
+      if (key.isDown && key.release) key.release();
+      key.isDown = false;
+      key.isUp = true;
+    }
+    event.preventDefault();
+  };
+
+  //Attach event listeners
+  window.addEventListener(
+    "keydown", key.downHandler.bind(key), false
+  );
+  window.addEventListener(
+    "keyup", key.upHandler.bind(key), false
+  );
+  return key;
+}
+
 
   //KEYBOARD COMMANDS
   var left = keyboard(37),
@@ -609,7 +654,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
       // document.location.href = ""
       // stage = new Container
       setup()
-      state = welcome
+      // state = welcome
     }
 
     exitButton
@@ -778,59 +823,24 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
   state = welcome;
 
-  gameLoop()
+  // gameLoop()
 }
 
-function keyboard(keyCode) {
-  var key = {};
-  key.code = keyCode;
-  key.isDown = false;
-  key.isUp = true;
-  key.press = undefined;
-  key.release = undefined;
-  //The `downHandler`
-  key.downHandler = function(event) {
-    if (event.keyCode === key.code) {
-      if (key.isUp && key.press) key.press();
-      key.isDown = true;
-      key.isUp = false;
-    }
-    event.preventDefault();
-  };
-
-  //The `upHandler`
-  key.upHandler = function(event) {
-    if (event.keyCode === key.code) {
-      if (key.isDown && key.release) key.release();
-      key.isDown = false;
-      key.isUp = true;
-    }
-    event.preventDefault();
-  };
-
-  //Attach event listeners
-  window.addEventListener(
-    "keydown", key.downHandler.bind(key), false
-  );
-  window.addEventListener(
-    "keyup", key.upHandler.bind(key), false
-  );
-  return key;
-}
 
 
 
 
 function gameLoop() {
+    //Loop this function at 60 frames per second
 
-  //Loop this function at 60 frames per second
-  requestAnimationFrame(gameLoop);
+    requestAnimationFrame(gameLoop);
 
-  // Update current game state 
-  state();
+    // Update current game state 
+    state();
 
-  //Render the stage to see the animation
-  renderer.render(stage);
+    //Render the stage to see the animation
+    renderer.render(stage);
+
 }
 
 
