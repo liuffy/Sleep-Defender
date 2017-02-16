@@ -655,7 +655,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
     levelMessage.position.set(15,10);
 
-
+//
 
 
 // Make buttons on screen clickable
