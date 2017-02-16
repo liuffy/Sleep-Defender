@@ -60,12 +60,12 @@ Loader
     "assets/sounds/squish.wav"
     ])
   .on("progress", loadProgressHandler)
-  .load(init);
+  .load(init); // call gameLoop just once to avoid insanity
 
 
 function init(){
   setup()
-  gameLoop()
+  gameLoop() // call gameLoop just once to avoid insanity
 }
 
 function loadProgressHandler(loader, resource) {
@@ -644,18 +644,25 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     }
 
     function exitButtonUp(){
-
       exitButton.tint = 0xFFFFFF;
-
-
-      PIXI.utils.textureCache = {}; 
-      PIXI.utils.baseTextureCache = {};
-      // stage = new Container;
-      // document.location.href = ""
-      // stage = new Container
       setup()
-      // state = welcome
     }
+
+     function retryButtonUp(){
+      playButton.tint = 0xFFFFFF;
+      setup()
+      state = play;
+    }
+
+    retryButton
+    .on('mousedown', playButtonDown)
+    .on('mouseover', brightenButton)
+    .on('mouseout', dimButtonUp)
+    .on('mouseupoutside', dimButtonUp)
+    .on('mouseup', retryButtonUp)
+    .on('touchstart', playButtonDown)
+    .on('touchend', retryButtonUp)
+    .on('touchendoutside', dimButtonUp);
 
     exitButton
     .on('mousedown', exitButtonDown)
