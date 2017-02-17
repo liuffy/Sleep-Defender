@@ -168,8 +168,7 @@ function randomInt(min, max) {
 
 
 // Variables I want to access throughout the game 
-
-
+// Esp buttons, etc.
 let specificEnemy;
 let abductorId;
 var pajamer,

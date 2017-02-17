@@ -40860,8 +40860,7 @@ function randomInt(min, max) {
 }
 
 // Variables I want to access throughout the game 
-
-
+// Esp buttons, etc.
 let specificEnemy;
 let abductorId;
 var pajamer, playButton, howButton, backButton, exitButton, levelMessage, continueButton, retryButton, muteButton, helpButton, controlsButton, githubButton, linkedinButton, bed, enemy, state, zZz, outerBar, deadId, deadEnemy, onTexture, offTexture, happyPajamerTexture, sadPajamerTexture, flippedPajamerTexture, mainScreen, instructionsScreen, controlsScreen, controlsModal, endMessage, endMessage2, winMessage1, welcome, pausedMessage, hpBar, enemies;
