@@ -67,7 +67,7 @@ Loader
     "assets/images/instructions_button.png",
     "assets/images/music-on.png",
     "assets/images/music-off.png",
-    "assets/images/instructionsScreen",
+    "assets/images/instructionsScreen.png",
     "assets/images/controls_screen.png",
     "assets/images/controls_modal.png",
     "assets/images/enemy-1.png",
@@ -614,7 +614,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
   );    
 
     instructionsScreen = new Sprite(
-    Resources["assets/images/instructionsScreen"].texture
+    Resources["assets/images/instructionsScreen.png"].texture
   );    
 
     controlsScreen = new Sprite(

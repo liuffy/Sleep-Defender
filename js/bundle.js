@@ -40790,7 +40790,7 @@ document.body.appendChild(renderer.view);
 //Create a container object called the `stage`
 var stage = new Container();
 
-Loader.add(["assets/images/play_button.gif", "assets/images/back_button.png", "assets/images/help_button.png", "assets/images/continue-button.png", "assets/images/exit-button.png", "assets/images/retry-button.png", "assets/images/github_button.png", "assets/images/linkedin_button.png", "assets/images/controls_button.gif", "assets/images/instructions_button.png", "assets/images/music-on.png", "assets/images/music-off.png", "assets/images/instructionsScreen", "assets/images/controls_screen.png", "assets/images/controls_modal.png", "assets/images/enemy-1.png", "assets/images/flipped_pajamer.png", "assets/images/pajamer_sprites.json", "assets/images/enemy-2.png", "assets/images/enemy-3.png", "assets/images/bedroom_image.png", "assets/images/bed.png", "assets/images/HP_bar.png", "assets/images/game_over.png", "assets/images/zzz.png", "assets/images/paused.png", "assets/images/win1.png", "assets/images/main-screen.png", "assets/images/game_over2.png", "assets/sounds/fire.wav", "assets/sounds/pop.mp3", "assets/sounds/lullaby.wav", "assets/sounds/instructions.mp3", "assets/sounds/start.wav", "assets/sounds/backgroundLoop.wav", "assets/sounds/squish.wav"]).on("progress", loadProgressHandler).load(init); // call gameLoop just once to avoid insanity
+Loader.add(["assets/images/play_button.gif", "assets/images/back_button.png", "assets/images/help_button.png", "assets/images/continue-button.png", "assets/images/exit-button.png", "assets/images/retry-button.png", "assets/images/github_button.png", "assets/images/linkedin_button.png", "assets/images/controls_button.gif", "assets/images/instructions_button.png", "assets/images/music-on.png", "assets/images/music-off.png", "assets/images/instructionsScreen.png", "assets/images/controls_screen.png", "assets/images/controls_modal.png", "assets/images/enemy-1.png", "assets/images/flipped_pajamer.png", "assets/images/pajamer_sprites.json", "assets/images/enemy-2.png", "assets/images/enemy-3.png", "assets/images/bedroom_image.png", "assets/images/bed.png", "assets/images/HP_bar.png", "assets/images/game_over.png", "assets/images/zzz.png", "assets/images/paused.png", "assets/images/win1.png", "assets/images/main-screen.png", "assets/images/game_over2.png", "assets/sounds/fire.wav", "assets/sounds/pop.mp3", "assets/sounds/lullaby.wav", "assets/sounds/instructions.mp3", "assets/sounds/start.wav", "assets/sounds/backgroundLoop.wav", "assets/sounds/squish.wav"]).on("progress", loadProgressHandler).load(init); // call gameLoop just once to avoid insanity
 
 
 function init() {
@@ -41209,7 +41209,7 @@ function makeSprites() {
 
   mainScreen = new Sprite(Resources["assets/images/main-screen.png"].texture);
 
-  instructionsScreen = new Sprite(Resources["assets/images/instructionsScreen"].texture);
+  instructionsScreen = new Sprite(Resources["assets/images/instructionsScreen.png"].texture);
 
   controlsScreen = new Sprite(Resources["assets/images/controls_screen.png"].texture);
 
