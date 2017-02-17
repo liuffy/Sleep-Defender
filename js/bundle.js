@@ -41620,7 +41620,6 @@ function hitTestRectangle(sprite1, sprite2) {
 
 function instructions() {
   console.log('how');
-  stage.removeChild(mainScreen);
   stage.addChild(instructionsScreen);
   stage.addChild(backButton);
 }
