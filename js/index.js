@@ -85,9 +85,7 @@ Loader
     "assets/images/main-screen.png",
     "assets/images/game_over2.png",
     "assets/sounds/fire.wav",
-    "assets/sounds/pop.mp3",
-    "assets/sounds/lullaby.wav",
-    "assets/sounds/instructions.mp3",
+    "assets/sounds/instructions.wav",
     "assets/sounds/start.wav",
     "assets/sounds/backgroundLoop.wav",
     "assets/sounds/squish.wav"
@@ -212,10 +210,9 @@ var pajamer,
 let squishSound;
 
 var backgroundLoop = new Howl({src:['assets/sounds/backgroundLoop.wav'], volume: 0.16, loop: true});
-var lullabyLoop = new Howl({src:['assets/sounds/lullaby.wav'], volume: 0.08, loop: true});
 var fireSound = new Howl({src:['assets/sounds/fire.wav'], loop: false});
 var startSound = new Howl({src:['assets/sounds/start.wav'], loop: false});
-var screenButtonSound = new Howl({src:['assets/sounds/instructions.mp3'], volume: 0.2, loop: false});
+var screenButtonSound = new Howl({src:['assets/sounds/instructions.wav'], volume: 0.2, loop: false});
 
 
 function keyboard(keyCode) {
@@ -603,10 +600,6 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
         stage.addChild(enemy);
   })
 
-
-  // lullabyLoop.once('load', function(){
-  //   lullabyLoop.play();
-  // });
 
     mainScreen = new Sprite(
     Resources["assets/images/main-screen.png"].texture
