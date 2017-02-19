@@ -13,7 +13,7 @@ Sleep Defender, a bullet evasion/shooter game, is a riff on the 1981 classic spa
 
 ### Features and Implementation
 
-Sleep Defender uses `Vanilla javascript` for structure and game logic, and `Pixi JS` with (`HTML5 canvas` as fallback) for DOM manipulation and rendering. Sound effects are loaded and managed with `Howler.js`, an audio javascript library. All art was created or edited with Adobe Photoshop CC 2017. 
+Sleep Defender uses `vanilla Javascript` for structure and game logic, and `Pixi JS` with (`HTML5 canvas` as fallback) for DOM manipulation and rendering. Sound effects are loaded and managed with `Howler.js`, an audio javascript library. All art was created or edited with Adobe Photoshop CC 2017. 
 
 The game is managed by a main game loop, and different game scenes (i.e. main menu, pausing, end scenes) are handled as distinct states of the program.
 
@@ -30,7 +30,7 @@ During gameplay, the user's HP is displayed in the upper right hand corner, and 
 
 #### Important Algorithms
 
-One of the key features of the gameplay is the ability of certain enemies to hover towards the player if they fall within a specific distance to the player. This is simply achieved by pushing close-by enemies (calculated using the Pythagorean Theorem) into a `chasers` array. Enemies in the `chasers` array will move towards the player through the calculation of unit vectors. 
+One of the key features of the gameplay is the ability of certain enemies to hover towards the player if they fall within a specific distance to the player (in this case, 200 pixels). This is simply achieved by pushing close-by enemies (calculated using the Pythagorean Theorem) into a `chasers` array. Enemies in the `chasers` array will move towards the player based on a calculation made with unit vectors. 
 
 ```javascript
 
