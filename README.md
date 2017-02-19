@@ -4,14 +4,22 @@
 
 ### Background
 
-Sleep Defender is a riff on the 1981 classic space shooter game [Defender](http://www.classicgamesarcade.com/game/21638/defender.html).
+Sleep Defender, a bullet evasion/shooter game is a riff on the 1981 classic space shooter game [Defender](http://www.classicgamesarcade.com/game/21638/defender.html).
 
 'Sleep Defender' aims to capture the essence and spirit of Defender while giving it a modern, humorous take. The player must defend their bed from waves of objects that might interrupt their sleep - alarm clocks, cans of energy drinks, cups of coffee. The player wins if they are able to clear the screen of these moving objects without being hit more than three times or having their bed "abducted". 
 
 
 ### Features and Implementation
 
-![gameplay](http://res.cloudinary.com/liuffy/image/upload/v1487305060/preview_shot_j5s2od.png) 
+Sleep Defender uses `Vanilla javascript` for structure and game logic, and `Pixi JS` and `HTML5 canvas` are used for DOM manipulation and rendering. All visible objects, from individual buttons to background images, are rendered as `PIXI.Sprite`objects. 
+
+Different game scenes (such as the main menu, or the 'you've won!' page) are handled as distinct states of the program.
+
+![instructions](http://res.cloudinary.com/liuffy/image/upload/v1487534456/Screen_Shot_2017-02-19_at_12.00.04_PM_ahn72z.png) 
+*Instructions screen*
+![controls](http://res.cloudinary.com/liuffy/image/upload/v1487534455/Screen_Shot_2017-02-19_at_12.00.12_PM_b8hejc.png) 
+*Game controls screen*
+
 
 
 With this game, users will be able to:
@@ -25,22 +33,6 @@ In addition, this project will include:
 
 - [ ] An Instructions modal describing the objective of and controls for the game
 - [ ] The ability to play or mute background music. 
-
-### Wireframes
-
-This app will have a single screen with the game board, game statistics (lives remaining and percentage of enemy objects eliminated), game controls, and links to my pages (Github, Linkedin, Portfolio site). 
-
-There will also be a '?' button that will allow the player to re-read the directions if they need to.
-
-The player's object will start at the bottom of the screen. They'll be able to move left, right up, up, and down (it's not really explained why they float, but hey, this is a game where you fight cans of energy drinks!). Enemy objects will move towards the player (calculated based on which quadrant the player's sprite is located in)
-
-A quick comparison:  
-
-![original_game](http://res.cloudinary.com/liuffy/image/upload/v1486409862/original_defender_fhy1pa.gif)  
-*The original 'Defender'*
-
-![wireframe](http://res.cloudinary.com/liuffy/image/upload/v1486422363/s_d_wireframe_yyc2ye.png)
-*Wireframe for 'Sleep Defender'*
 
 
 ### Architecture and Technologies
