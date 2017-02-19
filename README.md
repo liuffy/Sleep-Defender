@@ -4,19 +4,19 @@
 
 ### Background
 
-Sleep Defender, a bullet evasion/shooter game is a riff on the 1981 classic space shooter game [Defender](http://www.classicgamesarcade.com/game/21638/defender.html).
+Sleep Defender, a bullet evasion/shooter game, is a riff on the 1981 classic space shooter game [Defender](http://www.classicgamesarcade.com/game/21638/defender.html).
 
 'Sleep Defender' aims to capture the essence and spirit of Defender while giving it a modern, humorous take. The player must defend their bed from waves of objects that might interrupt their sleep - alarm clocks, cans of energy drinks, cups of coffee. The player wins if they are able to clear the screen of these moving objects without being hit more than three times or having their bed "abducted". 
 
 
 ### Features and Implementation
 
-Sleep Defender uses `Vanilla javascript` for structure and game logic, and `Pixi JS` and `HTML5 canvas` are used for DOM manipulation and rendering. All visible objects, from individual buttons to background images, are rendered as `PIXI.Sprite`objects. 
+Sleep Defender uses `Vanilla javascript` for structure and game logic, and `Pixi JS` with (`HTML5 canvas` as fallback) for DOM manipulation and rendering. All visible objects, from individual buttons to background images, are rendered as `PIXI.Sprite`objects. 
 
 Different game scenes (such as the main menu, or the 'you've won!' page) are handled as distinct states of the program.
 
 ![main_screen](http://res.cloudinary.com/liuffy/image/upload/c_scale,w_772/v1487534725/Screen_Shot_2017-02-19_at_12.04.55_PM_iwlkdw.png) 
-![game_play_in_actions](http://res.cloudinary.com/liuffy/image/upload/v1487535480/sleep_defender_gif_tdx8lm.gif) 
+![game_play_in_actions](http://res.cloudinary.com/liuffy/image/upload/c_scale,w_772/v1487535480/sleep_defender_gif_tdx8lm.gif) 
 
 
 With this game, users will be able to:
