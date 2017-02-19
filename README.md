@@ -1,5 +1,7 @@
 ## Sleep Defender
 
+[Sleep Defender Live](https://liuffy.github.io/Sleep-Defender/)
+
 ![game_banner](http://res.cloudinary.com/liuffy/image/upload/v1487533282/sleep_defender_banner_uoeqah.png) 
 
 ### Background
@@ -11,7 +13,7 @@ Sleep Defender, a bullet evasion/shooter game, is a riff on the 1981 classic spa
 
 ### Features and Implementation
 
-Sleep Defender uses `Vanilla javascript` for structure and game logic, and `Pixi JS` with (`HTML5 canvas` as fallback) for DOM manipulation and rendering. Sound effects are loaded and managed with `Howler.js`, an audio javascript library.  
+Sleep Defender uses `Vanilla javascript` for structure and game logic, and `Pixi JS` with (`HTML5 canvas` as fallback) for DOM manipulation and rendering. Sound effects are loaded and managed with `Howler.js`, an audio javascript library. All art was created or edited with Adobe Photoshop CC 2017. 
 
 The game is managed by a main game loop, and different game scenes (i.e. main menu, pausing, end scenes) are handled as distinct states of the program.
 
@@ -22,13 +24,13 @@ There are many features that were added to enhance the user's experience. First,
 
 The addition of the main screen provides instructions and information about controls for first-time players. A modal version of the controls screen can be accessed during gameplay through a button. There is also a button that allows the user to mute and un-mute the volume at any point (pressing the mute button once mutes all sounds globally, even if the user exits the game).
 
-Minimalistic sound effects (all sourced from [freesound.org](http://freesound.org/) were added to enhance the user's navigation. For example, there is a specific sound that plays whenenver the user presses the "play" (from the main screen), "retry" (after failing a level), or "continue" (after winning a level).
+Minimalistic sound effects (all sourced from [freesound.org](http://freesound.org/)) were added to enhance the user's navigation. For example, there is a specific sound that plays whenenver the user presses the "play" (from the main screen), "retry" (after failing a level), or "continue" (after winning a level).
 
 During gameplay, the user's HP is displayed in the upper right hand corner, and flashes whenever the user's HP decreases. Finally, the player can move the character using the arrow keys or the WASD keys. 
 
 #### Important Algorithms
 
-One of the key features of the gameplay is the ability of certain enemies to hover towards the player if they fall within a specific distance to the player. This is simply achieved by pushing close-by enemies (calculated using the Pythagorean Theorem) into a `chasers` array. Enemies in the `chasers` array will move towards the player through calculating of unit vectors. 
+One of the key features of the gameplay is the ability of certain enemies to hover towards the player if they fall within a specific distance to the player. This is simply achieved by pushing close-by enemies (calculated using the Pythagorean Theorem) into a `chasers` array. Enemies in the `chasers` array will move towards the player through the calculation of unit vectors. 
 
 ```javascript
 
@@ -62,7 +64,7 @@ One of the key features of the gameplay is the ability of certain enemies to hov
 
 ### Future Features
 
-There are many ways I could enhance the game in the future. 
+Though Sleep Defender was lovingly made, it is a very simple game, and there are many ways I could enhance the game in the future. 
 * Most notably, the game is currently halfway mobile compatible - the buttons on the main menu can be tapped, but the user cannot move the character with swipes yet (another solution could be to add a keypad on the screen for the user to press). 
 * Another possible addition is a loading screen. Currently, the loading percentage is printed to the console;  this information could be easily visualized with a loader bar. 
 * While the game currently tracks the level number, it does not yet track the player's score, which could easily added as a global variable that is reset when the player exits the game. 
