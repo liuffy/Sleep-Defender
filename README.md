@@ -16,9 +16,11 @@ Sleep Defender uses `Vanilla javascript` for structure and game logic, and `Pixi
 Different game scenes (such as the main menu, or the 'you've won!' page) are handled as distinct states of the program.
 
 ![main_screen](http://res.cloudinary.com/liuffy/image/upload/c_scale,w_772/v1487534725/Screen_Shot_2017-02-19_at_12.04.55_PM_iwlkdw.png) 
-*Instructions screen*
+*Main screen*
+
 ![instructions](http://res.cloudinary.com/liuffy/image/upload/c_scale,w_772/v1487534456/Screen_Shot_2017-02-19_at_12.00.04_PM_ahn72z.png) 
 *Instructions screen*
+
 ![controls](http://res.cloudinary.com/liuffy/image/upload/c_scale,w_772/v1487534455/Screen_Shot_2017-02-19_at_12.00.12_PM_b8hejc.png) 
 *Game controls screen*
 
