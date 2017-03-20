@@ -1,6 +1,7 @@
 body{
 	font-family: 'Ubuntu', sans-serif;
-		background-color: #000000;
+	background-image:url(../images/night.png);
+	background-size:30%;
 	color: #abadab;
 }
 
@@ -35,7 +36,7 @@ canvas{
   /**/
 	justify-content: center;
 	align-items: center;
-  /*margin-left: 14%;*/
+  margin-left: 18%;
 }
 
 span.credit-line{
