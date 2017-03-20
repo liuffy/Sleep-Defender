@@ -1,7 +1,7 @@
 body{
 	font-family: 'Ubuntu', sans-serif;
-	background-image:url(../images/night.png);
-	background-size:30%;
+	background-image:url(../images/night.gif);
+	background-size:20%;
 	color: white;
 }
 
@@ -20,8 +20,8 @@ body{
 }
 span.game-title{
 	padding:0px;
-	margin:10px;
-	font-size:32px;
+	margin:10px 10px 10px 0px;
+	font-size:40px;
 	/*text-align:center;*/
 	font-weight:600;
 }
@@ -51,6 +51,7 @@ span.credit-line{
 	justify-content: center;
 	align-items: center;
 	align-content: stretch;
+	height:100%;
 }
 
 .goal, .controls{
