@@ -13,7 +13,7 @@ body{
 .title-container{
 	display:block;
 	width:800px;
-  margin-left: 14%;
+  /*margin-left: 14%;*/
   margin-bottom:15px;
   text-align:center;
 }
@@ -44,8 +44,8 @@ span.credit-line{
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
-	justify-content: flex-start;
-	align-items: stretch;
+	justify-content: center;
+	align-items: center;
 	align-content: stretch;
 }
 
