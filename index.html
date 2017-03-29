@@ -29,6 +29,9 @@ ga('send', 'pageview');
   <meta name="description" content="Defend your bed from waves of objects that interrupt your sleep! Riff on the 1981 classic space shooter game Defender. Made with HTML5/ vanilla Javascript.">
   <meta property="og:image" content="http://res.cloudinary.com/liuffy/image/upload/v1487305060/preview_shot_j5s2od.png" />
 
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+
    <link rel="apple-touch-icon" sizes="57x57" href="assets/images/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="assets/images/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-icon-72x72.png">
@@ -51,8 +54,21 @@ ga('send', 'pageview');
 
     <link rel="stylesheet" href="assets/stylesheets/main.css" />
     <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,500,700,700i" rel="stylesheet">
+
+
   </head>
+
   <body>
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+  <script>
+  $(document).ready(function() {
+    $('.lightbulb').click(function(){
+      console.log('lol')
+      $('body').addClass('body-dark')
+    })
+  })
+ </script>
 
 
   <div class="whole-thing cf">

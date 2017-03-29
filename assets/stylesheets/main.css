@@ -15,23 +15,24 @@ html {
   position:absolute;
   left:50px;
   cursor:pointer;
+
 }
 .bed{
   position:relative;
   display:block;
   animation: slideOut 1s ease-out both;
   -webkit-animation: slideOut 1s ease-out both;
-  animation-delay:2s;
-  -webkit-animation-delay:2s;
-  -o-animation-delay:2s;
+  animation-delay:4s;
+  -webkit-animation-delay:4s;
+  -o-animation-delay:4s;
   bottom:0;
 }
 
 @keyframes slideOut {
-  to { opacity: 0; transform: translateY(-120%); }
+  to { opacity: 1; transform: translateY(-220%); }
 }
 @-webkit-keyframes slideOut {
-  to { opacity: 0; -webkit-transform: translateY(-120%); }
+  to { opacity: 1; -webkit-transform: translateY(-220%); }
 }
 
 body{
@@ -532,3 +533,7 @@ input:-webkit-autofill:active {
 .btn-wrapper a:last-child {
   margin-bottom: 0; }
 
+
+.body-dark{
+  background:black;
+}
