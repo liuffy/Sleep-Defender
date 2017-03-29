@@ -65,12 +65,13 @@ ga('send', 'pageview');
   $(document).ready(function() {
     $('.lightbulb').click(function(){
       console.log('lol')
-      $('body').addClass('body-dark')
+
+      $('body').hasClass('body-dark') ? $('body').removeClass('body-dark').addClass('body-light') : $('body').removeClass('body-light').addClass('body-dark')
     })
   })
  </script>
 
- 
+
   <div class="whole-thing cf">
     <img class="lightbulb" src= "./assets/images/lightbulb.png"
   <div class="bed-container">

@@ -540,3 +540,7 @@ input:-webkit-autofill:active {
 .body-dark{
   background:black;
 }
+
+.body-light{
+  background:white;
+}
