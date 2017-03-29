@@ -137,7 +137,7 @@ a:hover{
 }
 
 .title-container{
-  margin-top:10%;
+font-family: 'PT Mono', monospace;
 	display:block;
 	width:100%;
   /*margin-left: 14%;*/
