@@ -19,8 +19,8 @@ html {
   cursor:pointer;
    -webkit-animation-name: wiggle;
   -ms-animation-name: wiggle;
-  -ms-animation-duration: 1000ms;
-  -webkit-animation-duration: 1000ms;
+  -ms-animation-duration: 2000ms;
+  -webkit-animation-duration: 2000ms;
   -webkit-animation-iteration-count: 1;
   -ms-animation-iteration-count: 1;
   -webkit-animation-timing-function: ease-in-out;
