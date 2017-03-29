@@ -14,9 +14,10 @@ html {
   transform: translate3d(0, 0, 0);*/
   width:50px;
   height:auto;
-  position:absolute;
-  left:10px;
-  top:50px;
+/*  position:absolute;*/
+/*  left:10px;
+  top:50px;*/
+  margin:0 auto;
   display:block;
   cursor:pointer;
    -webkit-animation-name: wiggle;
