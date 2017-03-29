@@ -36,6 +36,9 @@ html {
 }
 
 body{
+    -webkit-transition: all 500ms ease-in;
+  -moz-transition: all 500ms ease-in;
+  transition: all 500ms ease-in;
 	font-family: 'Ubuntu', sans-serif;
 	/*background-image:url(../images/night.gif);*/
 	/*background-size:20%;*/
