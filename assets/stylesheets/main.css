@@ -28,6 +28,13 @@ html {
   -ms-animation-iteration-count: 1;
   -webkit-animation-timing-function: ease-in-out;
   -ms-animation-timing-function: ease-in-out;
+      -webkit-transition: all 500ms ease-in;
+  -moz-transition: all 500ms ease-in;
+  transition: all 200ms ease-in;
+}
+
+.lightbulb:hover{
+  transform: scale(1.2);
 }
 
 @-webkit-keyframes wiggle {
@@ -198,6 +205,16 @@ span.credit-line{
 .control-item{
 	text-align:left;
 	font-size:14px;
+}
+
+.text-blurb{
+  transition: all 0.2s ease 0s;
+  visibility:hidden;
+}
+
+.visible{
+  transition: all 0.2s ease 0s;
+  visibility:visible;
 }
 
 
