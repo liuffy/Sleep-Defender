@@ -69,13 +69,22 @@ ga('send', 'pageview');
       $('body').hasClass('body-dark') ? $('body').removeClass('body-dark').addClass('body-light') : $('body').removeClass('body-light').addClass('body-dark')
 
     })
+
+        $('.lightbulb').hover(function(){
+      console.log('hehe')
+
+      $('text-blurb').toggle()
+
+    })
   })
  </script>
 
 
   <div class="whole-thing cf">
-    <img class="lightbulb" src= "./assets/images/lightbulb.png" />
 
+    <img class="lightbulb" src= "./assets/images/lightbulb.png" />
+ 
+    
   <div class="title-container">
     <span class="game-title">Sleep Defender</span>
     <div class="block">
