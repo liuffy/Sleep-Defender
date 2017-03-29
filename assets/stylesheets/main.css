@@ -5,6 +5,35 @@ html {
      height:100%; /* take full browser height*/
 }
 
+/*.bed-container{
+  height:100px;
+}
+*/
+.lightbulb{
+  width:50px;
+  height:auto;
+  position:absolute;
+  left:50px;
+  cursor:pointer;
+}
+.bed{
+  position:relative;
+  display:block;
+  animation: slideOut 1s ease-out both;
+  -webkit-animation: slideOut 1s ease-out both;
+  animation-delay:2s;
+  -webkit-animation-delay:2s;
+  -o-animation-delay:2s;
+  bottom:0;
+}
+
+@keyframes slideOut {
+  to { opacity: 0; transform: translateY(-120%); }
+}
+@-webkit-keyframes slideOut {
+  to { opacity: 0; -webkit-transform: translateY(-120%); }
+}
+
 body{
 	font-family: 'Ubuntu', sans-serif;
 	/*background-image:url(../images/night.gif);*/
@@ -21,19 +50,20 @@ body{
   width:100%;
 }
 
+
 a{
-	color:#8ca5cd;
-	padding:6px;
-	text-decoration: none;
-	-webkit-transition: all 500ms ease-in;
+	display:inline-block;
+  color:#8ca5cd;
+  padding:2px;
+  text-decoration: none;
+  -webkit-transition: all 500ms ease-in;
   -moz-transition: all 500ms ease-in;
   transition: all 500ms ease-in;
 }
 
 a:hover{
-	color: #323a3d;
-	display:inline-block;
-	border:1px solid #323a3d;
+  color: #323a3d;
+	/*border:1px solid #323a3d;*/
 }
 
 .cf:after {
@@ -53,7 +83,7 @@ a:hover{
 span.game-title{
 	padding:0px;
 	margin:10px 10px 10px 0px;
-	font-size:40px;
+	font-size:30px;
 	/*text-align:center;*/
 	font-weight:600;
 	color:gray;
