@@ -635,7 +635,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     Resources["assets/images/linkedin_button.png"].texture
   );
 
-    levelMessage = new Text(`Level ${level}`, { fontFamily: 'Josefin Sans', 
+    levelMessage = new Text(`Level ${level}`, { fontFamily: 'Ubuntu', 
     fontSize: 24,
     fontStyle: 'bold',
     // Set style, size and font
