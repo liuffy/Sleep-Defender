@@ -17,7 +17,6 @@ import {Howl, Howler} from 'howler';
 var level = 1;
 // Volume toggle is global function so sounds can be muted any time.
 
-
 var soundOn = true;
 function soundToggle(){
   soundOn = true
@@ -35,7 +34,6 @@ function soundToggle(){
     muteButton.texture = onTexture
 
     if (state === play && muteButton.texture === onTexture){
-      console.log('ho hum')
     backgroundLoop.play()
     fireSound.play()
   }
@@ -88,7 +86,6 @@ Loader
     "assets/sounds/instructions.wav",
     "assets/sounds/start.wav",
     "assets/sounds/backgroundLoop.wav",
-    "assets/sounds/squish.wav"
     ])
   .on("progress", loadProgressHandler)
   .load(init); // call gameLoop just once to avoid insanity
@@ -905,7 +902,6 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
   state = welcome;
 
-  // gameLoop()
 }
 
 
