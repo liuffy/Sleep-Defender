@@ -12,13 +12,19 @@ html {
 .logo-icon{
   width:1.5em;
   margin-right:0.5em;
+  margin-left:0.5em;
 }
 
 .header-links{
   width: 90%;
   height:50px;
+  border-radius:3px;
+  background:#272323;
+  text-shadow: 1px 2px 8px transparent, 0 0 0 transparent, 1px 2px 8px transparent, 2px 2px 0px transparent !important; 
   margin:0 auto;
-    display: flex;
+  margin-bottom:20px;
+  color:white;
+  display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-start;
@@ -27,16 +33,23 @@ html {
 }
 
 .keystrokes{
-  width:100%;
+  width: 90%;
   height:100px;
+  margin:0 auto;
 }
 
 .lightbulb{
-  width:40px;
+  width:20px;
   height:auto;
   margin:0 auto;
   display:block;
   cursor:pointer;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently*/
    -webkit-animation-name: wiggle;
   -ms-animation-name: wiggle;
   -ms-animation-duration: 2000ms;
@@ -125,6 +138,7 @@ html {
 body{
   text-shadow: 1px 2px 8px #e5e5e5, 0 0 0 rgba(50,50,0,.3), 1px 2px 8px #e5e5e5, 2px 2px 0px rgba(255,255,255,1); 
   margin-top:50px;
+  line-height:95%;
   -webkit-transition: all 500ms ease-in;
   -moz-transition: all 500ms ease-in;
   transition: all 500ms ease-in;
@@ -150,6 +164,7 @@ ul{
     display:flex;
     align-content: space-between;
     height:100px;
+    padding:0px;
     justify-content: center;
 }
 
@@ -173,7 +188,7 @@ a{
 
 
 a:hover{
-  color: #323a3d;
+  color: white;
 }
 
 .cf:after {
@@ -218,7 +233,7 @@ canvas{
 }
 
 span.credit-line{
-	opacity:0.6;
+	opacity:0.8;
 	font-size:20px;
 }
 
