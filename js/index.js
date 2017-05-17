@@ -616,11 +616,11 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     Resources["assets/images/linkedin_button.png"].texture
   );
 
-    levelMessage = new Text(`Level ${level}`, { fontFamily: 'sans-serif', 
+    levelMessage = new Text(`Level ${level}`, { fontFamily: 'Ubuntu, Arial', 
     fontSize: 24,
     fontStyle: 'bold',
     // Set style, size and font
-    fill: '#00F8F8', // Set fill color to blue
+    fill: '#AE6CB7', // Set fill color to blue
     align: 'center', // Center align the text, since it's multiline
     stroke: '#272323', // Set stroke color to a dark blue-gray color
     strokeThickness: 10, // Set stroke thickness to 20
