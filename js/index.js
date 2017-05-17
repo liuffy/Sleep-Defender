@@ -620,15 +620,13 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     fontSize: 24,
     fontStyle: 'bold',
     // Set style, size and font
-    fill: '#AE6CB7', // Set fill color to blue
+    fill: '#90AEFF', // Set fill color to blue
     align: 'center', // Center align the text, since it's multiline
-    stroke: '#272323', // Set stroke color to a dark blue-gray color
+    stroke: '#5b67d3', // Set stroke color to a dark blue-gray color
     strokeThickness: 10, // Set stroke thickness to 20
     lineJoin: 'round'});
 
     levelMessage.position.set(15,10);
-
-//
 
 
 // Make buttons on screen clickable
@@ -886,10 +884,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
 
   state = welcome;
-
 }
-
-
 
 
 function gameLoop() {
