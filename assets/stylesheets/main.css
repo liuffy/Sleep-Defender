@@ -1,11 +1,11 @@
 html {
-    font-family: sans-serif;  /*background-image:url(../images/night.gif);*/
-    font-weight: 300;
-    margin:5%; /* remove default margin */
-    margin-top:0%;
-    padding:0; /* remove default padding */
-    width:90%; /* take full browser width */
-    height:100%; /* take full browser height*/
+  font-family: sans-serif;  /*background-image:url(../images/night.gif);*/
+  font-weight: 300;
+  margin:5%; /* remove default margin */
+  margin-top:0%;
+  padding:0; /* remove default padding */
+  width:90%; /* take full browser width */
+  height:100%; /* take full browser height*/
 }
 
 

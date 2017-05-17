@@ -1,6 +1,6 @@
 const PIXI = require('pixi.js');
 const Game = require('./game.js');
-import {Howl, Howler} from 'howler'; 
+import { Howl, Howler } from 'howler'; 
 
 
 // Some aliases to save on typing 
@@ -153,10 +153,6 @@ function contain(sprite, container) {
   return collision;
 }
 
-/////////////////////
-
-
-
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -301,35 +297,30 @@ function keyboard(keyCode) {
 
   //Left arrow key `release` method
   left.release = function() {
-    //If the left arrow has been released, and the right arrow isn't down,
-    //and the pajamer isn't moving vertically:
-    //Stop the pajamer
     if (!right.isDown && pajamer.vy === 0) {
       pajamer.vx = 0;
     }
   }
 
+  // For ASDF controls 
   leftA.release = function() {
-    //If the left arrow has been released, and the right arrow isn't down,
-    //and the pajamer isn't moving vertically:
-    //Stop the pajamer
     if (!right.isDown && pajamer.vy === 0) {
       pajamer.vx = 0;
     }
   }
 
   //Up
-up.press = function() {
+  up.press = function() {
     pajamer.vy = -5;
     pajamer.vx = 0;
   };
 
-upW.press = function() {
-  pajamer.vy = -5;
-  pajamer.vx = 0;
-};
+  upW.press = function() {
+    pajamer.vy = -5;
+    pajamer.vx = 0;
+  };
 
-up.release = function() {
+  up.release = function() {
     if (!down.isDown && pajamer.vx === 0) {
       pajamer.vy = 0;
     }
@@ -341,8 +332,8 @@ up.release = function() {
     }
   };
 
-  //Right
-right.press = function() {
+//Right
+  right.press = function() {
     pajamer.vx = 5;
     pajamer.vy = 0;
   };
@@ -365,7 +356,7 @@ rightD.release = function() {
   };
 
   //Down
-down.press = function() {
+  down.press = function() {
     pajamer.vy = 5;
     pajamer.vx = 0;
   };
@@ -374,6 +365,7 @@ down.press = function() {
     pajamer.vy = 5;
     pajamer.vx = 0;
   };
+
  down.release = function() {
     if (!up.isDown && pajamer.vx === 0) {
       pajamer.vy = 0;
@@ -385,8 +377,6 @@ down.press = function() {
       pajamer.vy = 0;
     }
   }
-
- 
 
 
 function setup() {
@@ -400,14 +390,15 @@ function setup() {
 
 function makeSprites(){
 
-
   //Make the Enemies
+
+  // Number of enemies proportional to level 
   var numOfEnemies = randomInt(7 * Math.sqrt(level),9 * Math.sqrt(level)),
       spacing = 30,
       xOffset = 150,
       direction = 1.7;
   //An array to store all the enemies
-  enemies = [];
+      enemies = [];
 
 
     var ENEMY_OPTIONS = [
@@ -446,8 +437,6 @@ function makeSprites(){
 console.log(stage.children)
 var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
-  //Create the `cat` sprite from the texture
-
 
   pajamer = new Sprite(
     id["pajamer_sprite.png"]
@@ -480,25 +469,25 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     Resources["assets/images/paused.png"].texture
   );
 
-   zZz = new Sprite(
-  Resources["assets/images/zzz.png"].texture
+  zZz = new Sprite(
+    Resources["assets/images/zzz.png"].texture
   );
 
-    controlsModal = new Sprite(
-      Resources["assets/images/controls_modal.png"].texture
+  controlsModal = new Sprite(
+    Resources["assets/images/controls_modal.png"].texture
   );    
 
-    continueButton = new Sprite(
-      Resources["assets/images/continue-button.png"].texture
+  continueButton = new Sprite(
+    Resources["assets/images/continue-button.png"].texture
   );
 
-    exitButton = new Sprite(
-      Resources["assets/images/exit-button.png"].texture
-  );
-    retryButton = new Sprite(
-      Resources["assets/images/retry-button.png"].texture
+  exitButton = new Sprite(
+    Resources["assets/images/exit-button.png"].texture
   );
 
+  retryButton = new Sprite(
+    Resources["assets/images/retry-button.png"].texture
+  );
 
   pausedMessage.position.set(240, 150)
   continueButton.position.set(410, 230)
@@ -523,8 +512,6 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
   endMessage2.scale.x = 0.5;
   endMessage2.scale.y = 0.5;
   endMessage2.position.set(180,10);
-
-
 
   pajamer.position.set(150,360)
   bed.position.set(405,383)
@@ -564,7 +551,6 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
   }
       
 
-
     helpButton = new Sprite(
       Resources["assets/images/help_button.png"].texture
   );
@@ -586,9 +572,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     stage.addChild(muteButton);
 
 
-
-
- // HEALTH
+ // HEALTH/ HP
 
   stage.addChild(hpBar);
   hpBar.addChild(outerBar);
@@ -598,47 +582,48 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
   })
 
 
-    mainScreen = new Sprite(
+  mainScreen = new Sprite(
     Resources["assets/images/main-screen.png"].texture
   );    
 
-    instructionsScreen = new Sprite(
+  instructionsScreen = new Sprite(
     Resources["assets/images/instructionsScreen.png"].texture
   );    
 
-    controlsScreen = new Sprite(
+  controlsScreen = new Sprite(
     Resources["assets/images/controls_screen.png"].texture
   );
 
-    playButton = new Sprite(
+  playButton = new Sprite(
     Resources["assets/images/play_button.gif"].texture
   );
 
-    howButton = new Sprite(
+  howButton = new Sprite(
     Resources["assets/images/instructions_button.png"].texture
   );    
 
-    controlsButton = new Sprite(
+  controlsButton = new Sprite(
     Resources["assets/images/controls_button.gif"].texture
   );
 
-    backButton = new Sprite(
+  backButton = new Sprite(
     Resources["assets/images/back_button.png"].texture
   );
-    githubButton = new Sprite(
+
+  githubButton = new Sprite(
     Resources["assets/images/github_button.png"].texture
   );
     linkedinButton = new Sprite(
     Resources["assets/images/linkedin_button.png"].texture
   );
 
-    levelMessage = new Text(`Level ${level}`, { fontFamily: 'Ubuntu', 
+    levelMessage = new Text(`Level ${level}`, { fontFamily: 'sans-serif', 
     fontSize: 24,
     fontStyle: 'bold',
     // Set style, size and font
-    fill: '#9fb7dd', // Set fill color to blue
+    fill: '#00F8F8', // Set fill color to blue
     align: 'center', // Center align the text, since it's multiline
-    stroke: '#4e4072', // Set stroke color to a dark blue-gray color
+    stroke: '#F800F8', // Set stroke color to a dark blue-gray color
     strokeThickness: 10, // Set stroke thickness to 20
     lineJoin: 'round'});
 
@@ -703,6 +688,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
       console.log(level)
     }
 
+    // Customize states of buttons 
     continueButton
     .on('mousedown', playButtonDown)
     .on('mouseover', brightenButton)
@@ -877,7 +863,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
     function backButtonDown(){
       backButton.tint = 0xd623fe;
-     if (soundOn === true){
+      if (soundOn === true){
         screenButtonSound.play()
       }
     }
@@ -907,7 +893,6 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
 
 
 
-
 function gameLoop() {
     //Loop this function at 60 frames per second
 
@@ -918,7 +903,6 @@ function gameLoop() {
 
     //Render the stage to see the animation
     renderer.render(stage);
-
 }
 
 
@@ -961,7 +945,8 @@ function gameLoop() {
     var distance = Math.sqrt( (Math.pow( run, 2)) + (Math.pow( rise, 2)) )
     var unitX = run / distance;
     var unitY = rise / distance; 
-// ENEMY CODE
+
+  // ENEMY CODE
     var chasers = [];
     enemies.forEach(function(enemy) {
 
@@ -1059,11 +1044,12 @@ if (pajamerHit){
       } else {
         pajamer.texture = flippedPajamerTexture;
       }
-}
+  }
 
-if (bedHit){
+  if (bedHit){
   enemies.forEach(function(enemy) {
     if (enemy.id === abductorId && bed.y > 300){
+      // Enemy carrying away the bed will move upwards vertically
       specificEnemy = enemy;
     }
   })
@@ -1074,15 +1060,17 @@ if (bedHit){
 
   specificEnemy.vx = 0;
   specificEnemy.vy = -2;
+
+  // Bed moves with the enemy
   bed.vy = specificEnemy.vy
   bed.tint = 0xFF9999;
   } else {
     bed.tint = 0xD0A9F5;
   }
 
-    if (specificEnemy.y === 0){
-      state = end2;
-    }
+  if (specificEnemy.y === 0){
+    state = end2;
+  }
 
   } else {
     bed.tint = 0xffffff;
