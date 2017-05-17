@@ -1,16 +1,15 @@
 const PIXI = require('pixi.js');
-const Game = require('./game.js');
 import { Howl, Howler } from 'howler'; 
 
 
 // Some aliases to save on typing 
-  var Container = PIXI.Container,
-      autoDetectRenderer = PIXI.autoDetectRenderer,
-      Texture = PIXI.Texture,
-      Loader = PIXI.loader,
-      Resources = PIXI.loader.resources,
-      Text = PIXI.Text,
-      Sprite = PIXI.Sprite;
+var Container = PIXI.Container,
+    autoDetectRenderer = PIXI.autoDetectRenderer,
+    Texture = PIXI.Texture,
+    Loader = PIXI.loader,
+    Resources = PIXI.loader.resources,
+    Text = PIXI.Text,
+    Sprite = PIXI.Sprite;
 
 
 // Start at level 1
@@ -202,7 +201,7 @@ var pajamer,
 // Sounds 
 let squishSound;
 
-var backgroundLoop = new Howl({src:['assets/sounds/backgroundLoop.wav'], volume: 0.16, loop: true});
+var backgroundLoop = new Howl({src:['assets/sounds/backgroundLoop.wav'], volume: 0.13, loop: true});
 var fireSound = new Howl({src:['assets/sounds/fire.wav'], loop: false});
 var startSound = new Howl({src:['assets/sounds/start.wav'], loop: false});
 var screenButtonSound = new Howl({src:['assets/sounds/instructions.wav'], volume: 0.2, loop: false});
@@ -623,7 +622,7 @@ var id = PIXI.loader.resources["assets/images/pajamer_sprites.json"].textures;
     // Set style, size and font
     fill: '#00F8F8', // Set fill color to blue
     align: 'center', // Center align the text, since it's multiline
-    stroke: '#F800F8', // Set stroke color to a dark blue-gray color
+    stroke: '#272323', // Set stroke color to a dark blue-gray color
     strokeThickness: 10, // Set stroke thickness to 20
     lineJoin: 'round'});
 
